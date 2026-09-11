@@ -3,6 +3,8 @@ title: "Pre-Class Learning Summaries"
 ---
 
 ## R
+![](Mindmap-pcl-1.png)
+
 
 ![](0808-r.png)
 
