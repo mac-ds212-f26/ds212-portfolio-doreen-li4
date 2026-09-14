@@ -3,10 +3,13 @@ title: "Pre-Class Learning Summaries"
 ---
 
 ## R
+
+Sep. 10- File System
+
 ![](Mindmap-pcl-1.png)
 
+Sep.13- Adv Data Viz
 
-![](0808-r.png)
+![](Mindmap-pcl-2.png)
 
 ## Quarto
-
