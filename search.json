@@ -47,7 +47,7 @@
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
     "section": "",
-    "text": "R",
+    "text": "R\nSep. 10- File System\nSep.13- Adv Data Viz",
     "crumbs": [
       "Pre-Class Learnings",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
@@ -58,7 +58,7 @@
     "href": "pcl/pcl.html#quarto",
     "title": "Pre-Class Learning Summaries",
     "section": "Quarto",
-    "text": "Quarto\n\n\n\nfrom qmd4sci.njtierney.com",
+    "text": "Quarto",
     "crumbs": [
       "Pre-Class Learnings",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
