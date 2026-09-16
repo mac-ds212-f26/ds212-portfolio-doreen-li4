@@ -12,4 +12,7 @@ Sep.13- Adv Data Viz
 
 ![](Mindmap-pcl-2.png)
 
+Sep.15- Adv Spatial Viz
+
+![](Mindmap-pcl-3.png)
 ## Quarto
