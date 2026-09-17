@@ -25,7 +25,7 @@ ggplot(cappuccino_index, aes(x = index)) +
        subtitle = "Distribution of the Cappuccino Index across countries",
        x = "Minutes of work needed to buy one cappuccino",
        y = "Number of countries",
-       caption = "Source: TidyTuesday, The Cappuccino Index (2026)") +
+       caption = "Doreen, The Cappuccino Index, 9/16") +
   theme_classic()
 ```
 The distribution is right-skewed, and the mode is concentrated ~25 meaning that most of the workers across countries need to work for about 25 minutes to buy a cup of cappuccino.
@@ -40,7 +40,7 @@ ggplot(cafe, aes(x = price_gbp)) +
        subtitle = "Distribution of cappuccino prices in British pounds",
        x = "Cappuccino price (£)",
        y = "Density",
-       caption = "Source: TidyTuesday, The Cappuccino Index (2026)") +
+       caption = "Doreen, The Cappuccino Index, 9/16") +
   theme_classic()
 ```
 Most one cup of cappuccino cost around £3–£5.
@@ -70,7 +70,7 @@ ggplot(cafe_top,aes(x = reorder(country, price_gbp),y = price_gbp)) +
        subtitle = "Price distributions for countries with the most observations",
        x = "Country",
        y = "Cappuccino price (£)",
-       caption = "Source: TidyTuesday, The Cappuccino Index (2026)") +
+       caption = "Doreen, The Cappuccino Index, 9/16") +
   theme_classic()
 ```
 Cappuccino prices vary both across and within countries. The UK and USA have relatively high median prices among the 8 countries, while Czechia, Canada, and Australia have lower median prices. The different box widths also show that some countries like USA and Poland have more variation in cappuccino prices than others. Several countries have outliers, which shows that individual cafe can differ from the typical price.
@@ -87,7 +87,7 @@ ggplot(cafe,aes(x = hourly_wage_gbp,y = price_gbp)) +
        subtitle = "Relationship between hourly wages and cappuccino prices",
        x = "Hourly wage (£)",
        y = "Cappuccino price (£)",
-       caption = "Source: TidyTuesday, The Cappuccino Index (2026)") +
+       caption = "Doreen, The Cappuccino Index, 9/16") +
   theme_classic()
 ```
 There is a positive association between cappuccino prices and hourly wages, although there are several ourliers.
