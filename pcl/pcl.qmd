@@ -4,8 +4,15 @@ title: "Pre-Class Learning Summaries"
 
 ## R
 
-![](0808-r.png)
+Sep. 10- File System
 
+![](Mindmap-pcl-1.png)
+
+Sep.13- Adv Data Viz
+
+![](Mindmap-pcl-2.png)
+
+Sep.15- Adv Spatial Viz
+
+![](Mindmap-pcl-3.png)
 ## Quarto
-
-![from qmd4sci.njtierney.com](0810-quarto.jpeg)
