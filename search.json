@@ -23,12 +23,34 @@
   {
     "objectID": "tt/2025-07-08.html",
     "href": "tt/2025-07-08.html",
-    "title": "TidyTuesday Sample 1",
+    "title": "HW 01: Tidy Tuesday",
     "section": "",
-    "text": "Add content here",
+    "text": "Research Question\nHow does affordability of a cappuccino vary across different countries?",
     "crumbs": [
       "TidyTuesday",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>TidyTuesday Sample 1</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HW 01: Tidy Tuesday</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-08.html#import-data",
+    "href": "tt/2025-07-08.html#import-data",
+    "title": "HW 01: Tidy Tuesday",
+    "section": "Import data",
+    "text": "Import data\n\nCodelibrary(tidyverse)\nlibrary(ggplot2)\nlibrary(dplyr)\ncafe &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv')\ncappuccino_index &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv')",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HW 01: Tidy Tuesday</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-08.html#conclusion",
+    "href": "tt/2025-07-08.html#conclusion",
+    "title": "HW 01: Tidy Tuesday",
+    "section": "Conclusion",
+    "text": "Conclusion\nThe Cappuccino Index shows that the affordability of a cappuccino varies across countries. While cappuccino prices tend to be higher in places with higher hourly wages, price differences also occur within countries. Overall, looking at cappuccino price alone does not fully describe affordability; local wages provide important context.",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HW 01: Tidy Tuesday</span>"
     ]
   },
   {
