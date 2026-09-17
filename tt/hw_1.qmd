@@ -96,4 +96,3 @@ There is a positive association between cappuccino prices and hourly wages, alth
 ## Conclusion
 
 The Cappuccino Index shows that the affordability of a cappuccino varies across countries. While cappuccino prices tend to be higher in places with higher hourly wages, price differences also occur within countries. Overall, looking at cappuccino price alone does not fully describe affordability; local wages provide important context.
-
