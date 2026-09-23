@@ -69,7 +69,18 @@
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
     "section": "",
-    "text": "R\nSep. 10- File System\nSep.13- Adv Data Viz\nSep.15- Adv Spatial Viz\n## Quarto",
+    "text": "R\nSep. 10- File System\nSep.13- Adv Data Viz\nSep.15- Adv Spatial Viz\nSep.22 - Adv wrangle I",
+    "crumbs": [
+      "Pre-Class Learnings",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+    ]
+  },
+  {
+    "objectID": "pcl/pcl.html#quarto",
+    "href": "pcl/pcl.html#quarto",
+    "title": "Pre-Class Learning Summaries",
+    "section": "Quarto",
+    "text": "Quarto",
     "crumbs": [
       "Pre-Class Learnings",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
