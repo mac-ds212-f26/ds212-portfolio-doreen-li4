@@ -41,7 +41,7 @@ ggplot(cave_counts, aes(x = reorder(cave, n), y = n)) +
        subtitle = "The number of recorded manuscripts varies substantially across 11 caves",
        x = "Cave",
        y = "Number of manuscripts",
-       caption = "By Doreen, Source: TidyTuesday Dead Sea Scrolls Manuscripts dataset, Created on: 9/15/2026") +
+       caption = "By Doreen, Source: TidyTuesday Dead Sea Scrolls Manuscripts dataset, Created on: 9/23/2026") +
   theme_minimal(base_size = 13) +
   theme(plot.title = element_text(face = "bold", size = 18),
         plot.subtitle = element_text(size = 12),
@@ -74,7 +74,7 @@ ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_categor
        x = "Cave",
        y = "Proportion",
        fill = "Content category",
-       caption = "By Doreen, Source: TidyTuesday Dead Sea Scrolls Manuscripts dataset, Created on: 9/15/2026") +
+       caption = "By Doreen, Source: TidyTuesday Dead Sea Scrolls Manuscripts dataset, Created on: 9/23/2026") +
   theme_minimal(base_size = 13) +
   theme(plot.title = element_text(face = "bold", size = 18),
     plot.subtitle = element_text(size = 12),
