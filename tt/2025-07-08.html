@@ -532,15 +532,16 @@ cookieconsent.run({
 </div>
 <p><em>How does the price vary within countries?</em></p>
 <div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="fu">ggplot</span>(cafe_top,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(country, price_gbp),<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="fu">ggplot</span>(cafe_top,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(country, price_gbp, <span class="at">FUN =</span> median),<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 3: Cappuccino Prices Vary Across &amp; Within Countries"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a>       <span class="at">subtitle =</span> <span class="st">"Price distributions for countries with the most observations"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-label="6"></a>       <span class="at">x =</span> <span class="st">"Country"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 3: Price distributions for the 8 countries with the highest number of observations"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a>       <span class="at">subtitle =</span> <span class="st">"Cappuccino prices differ across countries, with a notably high outlier in the USA at around £10"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-label="6"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-label="7"></a>       <span class="at">y =</span> <span class="st">"Cappuccino price (£)"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-label="8"></a>       <span class="at">caption =</span> <span class="st">"Source: TidyTuesday, The Cappuccino Index (2026)"</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-label="9"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-8"><a href="#cb7-8" aria-label="8"></a>       <span class="at">caption =</span> <span class="st">"Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026"</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-label="9"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>(<span class="at">prefix =</span> <span class="st">""</span>, <span class="at">suffix =</span> <span class="st">"£"</span>)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-label="10"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2025-07-08_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1119,39 +1120,40 @@ cookieconsent.run({
 <span id="cb9-71"><a href="#cb9-71" aria-label="63"></a></span>
 <span id="cb9-72"><a href="#cb9-72" aria-label="64"></a>*How does the price vary within countries?*</span>
 <span id="cb9-75"><a href="#cb9-75" aria-label="65"></a><span class="in">```{r}</span></span>
-<span id="cb9-76"><a href="#cb9-76" aria-label="66"></a><span class="fu">ggplot</span>(cafe_top,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(country, price_gbp),<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
+<span id="cb9-76"><a href="#cb9-76" aria-label="66"></a><span class="fu">ggplot</span>(cafe_top,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(country, price_gbp, <span class="at">FUN =</span> median),<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
 <span id="cb9-77"><a href="#cb9-77" aria-label="67"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb9-78"><a href="#cb9-78" aria-label="68"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb9-79"><a href="#cb9-79" aria-label="69"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 3: Cappuccino Prices Vary Across &amp; Within Countries"</span>,</span>
-<span id="cb9-80"><a href="#cb9-80" aria-label="70"></a>       <span class="at">subtitle =</span> <span class="st">"Price distributions for countries with the most observations"</span>,</span>
-<span id="cb9-81"><a href="#cb9-81" aria-label="71"></a>       <span class="at">x =</span> <span class="st">"Country"</span>,</span>
+<span id="cb9-79"><a href="#cb9-79" aria-label="69"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 3: Price distributions for the 8 countries with the highest number of observations"</span>,</span>
+<span id="cb9-80"><a href="#cb9-80" aria-label="70"></a>       <span class="at">subtitle =</span> <span class="st">"Cappuccino prices differ across countries, with a notably high outlier in the USA at around £10"</span>,</span>
+<span id="cb9-81"><a href="#cb9-81" aria-label="71"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
 <span id="cb9-82"><a href="#cb9-82" aria-label="72"></a>       <span class="at">y =</span> <span class="st">"Cappuccino price (£)"</span>,</span>
-<span id="cb9-83"><a href="#cb9-83" aria-label="73"></a>       <span class="at">caption =</span> <span class="st">"Source: TidyTuesday, The Cappuccino Index (2026)"</span>) <span class="sc">+</span></span>
-<span id="cb9-84"><a href="#cb9-84" aria-label="74"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb9-85"><a href="#cb9-85" aria-label="75"></a><span class="in">```</span></span>
-<span id="cb9-86"><a href="#cb9-86" aria-label="76"></a>Cappuccino prices vary both across and within countries. The UK and USA have relatively high median prices among the 8 countries, while Czechia, Canada, and Australia have lower median prices. The different box widths also show that some countries like USA and Poland have more variation in cappuccino prices than others. Several countries have outliers, which shows that individual cafe can differ from the typical price.</span>
-<span id="cb9-87"><a href="#cb9-87" aria-label="77"></a></span>
+<span id="cb9-83"><a href="#cb9-83" aria-label="73"></a>       <span class="at">caption =</span> <span class="st">"Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026"</span>) <span class="sc">+</span></span>
+<span id="cb9-84"><a href="#cb9-84" aria-label="74"></a>   <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>(<span class="at">prefix =</span> <span class="st">""</span>, <span class="at">suffix =</span> <span class="st">"£"</span>)) <span class="sc">+</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-label="75"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb9-86"><a href="#cb9-86" aria-label="76"></a><span class="in">```</span></span>
+<span id="cb9-87"><a href="#cb9-87" aria-label="77"></a>Cappuccino prices vary both across and within countries. The UK and USA have relatively high median prices among the 8 countries, while Czechia, Canada, and Australia have lower median prices. The different box widths also show that some countries like USA and Poland have more variation in cappuccino prices than others. Several countries have outliers, which shows that individual cafe can differ from the typical price.</span>
 <span id="cb9-88"><a href="#cb9-88" aria-label="78"></a></span>
-<span id="cb9-89"><a href="#cb9-89" aria-label="79"></a><span class="fu"># Plot 4</span></span>
-<span id="cb9-90"><a href="#cb9-90" aria-label="80"></a></span>
-<span id="cb9-91"><a href="#cb9-91" aria-label="81"></a>*Is a cappuccino more expensive in places where workers earn higher hourly wages?*</span>
-<span id="cb9-94"><a href="#cb9-94" aria-label="82"></a><span class="in">```{r}</span></span>
-<span id="cb9-95"><a href="#cb9-95" aria-label="83"></a><span class="fu">ggplot</span>(cafe,<span class="fu">aes</span>(<span class="at">x =</span> hourly_wage_gbp,<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
-<span id="cb9-96"><a href="#cb9-96" aria-label="84"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb9-97"><a href="#cb9-97" aria-label="85"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb9-98"><a href="#cb9-98" aria-label="86"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 4: Cappuccino Prices vs Wages"</span>,</span>
-<span id="cb9-99"><a href="#cb9-99" aria-label="87"></a>       <span class="at">subtitle =</span> <span class="st">"Relationship between hourly wages and cappuccino prices"</span>,</span>
-<span id="cb9-100"><a href="#cb9-100" aria-label="88"></a>       <span class="at">x =</span> <span class="st">"Hourly wage (£)"</span>,</span>
-<span id="cb9-101"><a href="#cb9-101" aria-label="89"></a>       <span class="at">y =</span> <span class="st">"Cappuccino price (£)"</span>,</span>
-<span id="cb9-102"><a href="#cb9-102" aria-label="90"></a>       <span class="at">caption =</span> <span class="st">"Source: TidyTuesday, The Cappuccino Index (2026)"</span>) <span class="sc">+</span></span>
-<span id="cb9-103"><a href="#cb9-103" aria-label="91"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb9-104"><a href="#cb9-104" aria-label="92"></a><span class="in">```</span></span>
-<span id="cb9-105"><a href="#cb9-105" aria-label="93"></a>There is a positive association between cappuccino prices and hourly wages, although there are several ourliers.</span>
-<span id="cb9-106"><a href="#cb9-106" aria-label="94"></a></span>
+<span id="cb9-89"><a href="#cb9-89" aria-label="79"></a></span>
+<span id="cb9-90"><a href="#cb9-90" aria-label="80"></a><span class="fu"># Plot 4</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-label="81"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-label="82"></a>*Is a cappuccino more expensive in places where workers earn higher hourly wages?*</span>
+<span id="cb9-95"><a href="#cb9-95" aria-label="83"></a><span class="in">```{r}</span></span>
+<span id="cb9-96"><a href="#cb9-96" aria-label="84"></a><span class="fu">ggplot</span>(cafe,<span class="fu">aes</span>(<span class="at">x =</span> hourly_wage_gbp,<span class="at">y =</span> price_gbp)) <span class="sc">+</span></span>
+<span id="cb9-97"><a href="#cb9-97" aria-label="85"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-label="86"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-label="87"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot 4: Cappuccino Prices vs Wages"</span>,</span>
+<span id="cb9-100"><a href="#cb9-100" aria-label="88"></a>       <span class="at">subtitle =</span> <span class="st">"Relationship between hourly wages and cappuccino prices"</span>,</span>
+<span id="cb9-101"><a href="#cb9-101" aria-label="89"></a>       <span class="at">x =</span> <span class="st">"Hourly wage (£)"</span>,</span>
+<span id="cb9-102"><a href="#cb9-102" aria-label="90"></a>       <span class="at">y =</span> <span class="st">"Cappuccino price (£)"</span>,</span>
+<span id="cb9-103"><a href="#cb9-103" aria-label="91"></a>       <span class="at">caption =</span> <span class="st">"Source: TidyTuesday, The Cappuccino Index (2026)"</span>) <span class="sc">+</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-label="92"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb9-105"><a href="#cb9-105" aria-label="93"></a><span class="in">```</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-label="94"></a>There is a positive association between cappuccino prices and hourly wages, although there are several ourliers.</span>
 <span id="cb9-107"><a href="#cb9-107" aria-label="95"></a></span>
-<span id="cb9-108"><a href="#cb9-108" aria-label="96"></a><span class="fu">## Conclusion</span></span>
-<span id="cb9-109"><a href="#cb9-109" aria-label="97"></a></span>
-<span id="cb9-110"><a href="#cb9-110" aria-label="98"></a>The Cappuccino Index shows that the affordability of a cappuccino varies across countries. While cappuccino prices tend to be higher in places with higher hourly wages, price differences also occur within countries. Overall, looking at cappuccino price alone does not fully describe affordability; local wages provide important context.</span>
+<span id="cb9-108"><a href="#cb9-108" aria-label="96"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-label="97"></a><span class="fu">## Conclusion</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-label="98"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-label="99"></a>The Cappuccino Index shows that the affordability of a cappuccino varies across countries. While cappuccino prices tend to be higher in places with higher hourly wages, price differences also occur within countries. Overall, looking at cappuccino price alone does not fully describe affordability; local wages provide important context.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
