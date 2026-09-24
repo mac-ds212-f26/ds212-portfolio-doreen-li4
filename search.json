@@ -56,12 +56,45 @@
   {
     "objectID": "tt/2025-07-15.html",
     "href": "tt/2025-07-15.html",
-    "title": "TidyTuesday Sample 2",
+    "title": "Homework 02",
     "section": "",
-    "text": "Add content here",
+    "text": "TidyTuesday Part (Optional)\nExplore the week’s TidyTuesday challenge. Develop a research question, then answer it through a short data story mainly composed of effective visualizations. Provide sufficient background for readers to grasp your narrative. Refer to the Homework Instructions ⭐ page on the course website for details on how to submit this part.",
     "crumbs": [
       "TidyTuesday",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>TidyTuesday Sample 2</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Homework 02</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-15.html#tidytuesday-part-optional",
+    "href": "tt/2025-07-15.html#tidytuesday-part-optional",
+    "title": "Homework 02",
+    "section": "",
+    "text": "ImportantInstructions\n\n\n\nYou can count work on this week’s TidyTuesday toward the exceptional work.",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Homework 02</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-15.html#research-question",
+    "href": "tt/2025-07-15.html#research-question",
+    "title": "Homework 02",
+    "section": "Research Question",
+    "text": "Research Question\nHow does the type of Dead Sea Scroll manuscript vary among 11 caves?",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Homework 02</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-15.html#import-data",
+    "href": "tt/2025-07-15.html#import-data",
+    "title": "Homework 02",
+    "section": "Import data",
+    "text": "Import data\n\nCodelibrary(tidyverse)\nlibrary(ggplot2)\n\ndead_sea_scrolls &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-15/dead_sea_scrolls.csv')",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Homework 02</span>"
     ]
   },
   {
