@@ -1,0 +1,109 @@
+---
+title: "HW 01: Tidy Tuesday"
+---
+
+## Research Question
+
+How does affordability of a cappuccino vary across different countries? 
+
+## Import data
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+cafe <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv')
+cappuccino_index <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv')
+```
+
+# Plot 1
+
+*How much working time (minutes) is needed to buy a cup of cappuccino?*
+```{r}
+ggplot(cappuccino_index, aes(x = index)) +
+  geom_histogram(bins = 20, fill = "#A90248", color = "#ECEBE3") +
+  labs(title = "Plot 1: How Much Work Time is Needed to Buy a Cup of Cappuccino?",
+       subtitle = "Distribution of the Cappuccino Index across countries",
+       x = "Minutes of work needed to buy one cappuccino",
+       y = "Number of countries",
+       caption = "Doreen, The Cappuccino Index, 9/16") +
+  theme_classic()
+```
+The distribution is right-skewed, and the mode is concentrated ~25 meaning that most of the workers across countries need to work for about 25 minutes to buy a cup of cappuccino.
+
+# Plot 2
+
+*How much does one cappuccino cost?*
+```{r}
+ggplot(cafe, aes(x = price_gbp)) +
+  geom_density(fill = "#E69F00",) +
+  labs(title = "Plot 2: How Much Does One Cappuccino Cost",
+       subtitle = "Distribution of cappuccino prices in British pounds",
+       x = "Cappuccino price (£)",
+       y = "Density",
+       caption = "Doreen, The Cappuccino Index, 9/16") +
+  theme_classic()
+```
+Most one cup of cappuccino cost around £3–£5.
+
+
+# Plot 3
+
+```{r}
+# data wrangling
+top_countries <- cafe |>
+  count(country, sort = TRUE) |>
+  slice_head(n = 8) |>
+  pull(country)
+
+top_countries
+
+cafe_top <- cafe |>
+  filter(country %in% top_countries)
+
+# identify the extreme USA outlier
+usa_outlier <- cafe_top |>
+  filter(country == "USA") |>
+  slice_max(price_gbp, n = 1)
+
+usa_outlier
+```
+
+*How does the price vary within countries?*
+```{r}
+ggplot(cafe_top,aes(x = reorder(country, price_gbp, FUN = median),y = price_gbp)) +
+  geom_boxplot() +
+  # label the USA extreme outlier
+   geom_text(data = usa_outlier, aes(label = city), hjust = -0.1, size =1.5) +
+  coord_flip() +
+  labs(title = "Plot 3: Price distributions for the 8 countries with a Minimum of 67 Observations",
+       subtitle = "Cappuccino prices differ across countries, with a notably high outlier in West Richland, USA at around £9",
+       x = NULL,
+       y = NULL,
+       caption = "By Doreen Li, Data Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
+   scale_y_continuous(labels = scales::label_currency(prefix = "", suffix = "£")) +
+  theme_classic()
+```
+Cappuccino prices vary both across and within countries. The UK and USA have relatively high median prices among the 8 countries, while Czechia, Canada, and Australia have lower median prices. The different box widths also show that some countries like USA and Poland have more variation in cappuccino prices than others. Several countries have outliers, which shows that individual cafe can differ from the typical price.
+
+
+# Plot 4
+
+*Is a cappuccino more expensive in places where workers earn higher hourly wages?*
+```{r}
+ggplot(cafe,aes(x = hourly_wage_gbp,y = price_gbp)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm") +
+  labs(title = "Plot 4: Cappuccino Prices vs Wages",
+       subtitle = "Relationship between hourly wages and cappuccino prices",
+       x = "Hourly wage (£)",
+       y = "Cappuccino price (£)",
+       caption = "Doreen, The Cappuccino Index, 9/16") +
+  theme_classic()
+```
+There is a positive association between cappuccino prices and hourly wages, although there are several ourliers.
+
+
+## Conclusion
+
+The Cappuccino Index shows that the affordability of a cappuccino varies across countries. While cappuccino prices tend to be higher in places with higher hourly wages, price differences also occur within countries. Overall, looking at cappuccino price alone does not fully describe affordability; local wages provide important context.
+
