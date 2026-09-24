@@ -59,18 +59,27 @@ top_countries
 
 cafe_top <- cafe |>
   filter(country %in% top_countries)
+
+# identify the extreme USA outlier
+usa_outlier <- cafe_top |>
+  filter(country == "USA") |>
+  slice_max(price_gbp, n = 1)
+
+usa_outlier
 ```
 
 *How does the price vary within countries?*
 ```{r}
 ggplot(cafe_top,aes(x = reorder(country, price_gbp, FUN = median),y = price_gbp)) +
   geom_boxplot() +
+  # label the USA extreme outlier
+   geom_text(data = usa_outlier, aes(label = city), hjust = -0.1, size =2) +
   coord_flip() +
-  labs(title = "Plot 3: Price distributions for the 8 countries with the highest number of observations",
-       subtitle = "Cappuccino prices differ across countries, with a notably high outlier in the USA at around £10",
+  labs(title = "Plot 3: Price distributions for the 8 countries with a Minimum of 67 Observations",
+       subtitle = "Cappuccino prices differ across countries, with a notably high outlier in West Richland, USA at around £9",
        x = NULL,
-       y = "Cappuccino price (£)",
-       caption = "By Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
+       y = NULL,
+       caption = "By Doreen Li, Data Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
    scale_y_continuous(labels = scales::label_currency(prefix = "", suffix = "£")) +
   theme_classic()
 ```
