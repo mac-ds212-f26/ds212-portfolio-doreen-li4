@@ -70,7 +70,7 @@ ggplot(cafe_top,aes(x = reorder(country, price_gbp, FUN = median),y = price_gbp)
        subtitle = "Cappuccino prices differ across countries, with a notably high outlier in the USA at around £10",
        x = NULL,
        y = "Cappuccino price (£)",
-       caption = "Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
+       caption = "By Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
    scale_y_continuous(labels = scales::label_currency(prefix = "", suffix = "£")) +
   theme_classic()
 ```
