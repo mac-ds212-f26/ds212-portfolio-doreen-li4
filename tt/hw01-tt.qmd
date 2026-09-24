@@ -63,14 +63,15 @@ cafe_top <- cafe |>
 
 *How does the price vary within countries?*
 ```{r}
-ggplot(cafe_top,aes(x = reorder(country, price_gbp),y = price_gbp)) +
+ggplot(cafe_top,aes(x = reorder(country, price_gbp, FUN = median),y = price_gbp)) +
   geom_boxplot() +
   coord_flip() +
-  labs(title = "Plot 3: Cappuccino Prices Vary Across & Within Countries",
-       subtitle = "Price distributions for countries with the most observations",
-       x = "Country",
+  labs(title = "Plot 3: Price distributions for the 8 countries with the highest number of observations",
+       subtitle = "Cappuccino prices differ across countries, with a notably high outlier in the USA at around £10",
+       x = NULL,
        y = "Cappuccino price (£)",
-       caption = "Doreen, The Cappuccino Index, 9/16") +
+       caption = "Doreen, Source: The Cappuccino Index, Tidy Tuesday, Created on: 9/16/2026") +
+   scale_y_continuous(labels = scales::label_currency(prefix = "", suffix = "£")) +
   theme_classic()
 ```
 Cappuccino prices vary both across and within countries. The UK and USA have relatively high median prices among the 8 countries, while Czechia, Canada, and Australia have lower median prices. The different box widths also show that some countries like USA and Poland have more variation in cappuccino prices than others. Several countries have outliers, which shows that individual cafe can differ from the typical price.
