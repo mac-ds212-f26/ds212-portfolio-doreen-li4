@@ -528,7 +528,7 @@ gss_cat |>
 ratings <- c("High", "Medium", "Low")
 ```
 
-
+finish
 More exercises will be on HW4. 
 
 
