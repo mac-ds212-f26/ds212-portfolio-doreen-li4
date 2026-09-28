@@ -253,8 +253,16 @@ diamonds |>
   summarize(high = all(price > 3000))
 
 #5
-diamonds |>
-  if_else()
+diamonds |> 
+    mutate(
+        price_cat1 = if_else(price < 500, "low", "high"),
+        price_cat2 = case_when(
+            price < 500 ~ "low",
+            price >= 500 & price <= 1000 ~ "medium",
+            price > 1000 ~ "high"
+        )
+    ) |> 
+    head()
 ```
 
 
