@@ -75,10 +75,9 @@ book:
 
     - part: "In-Class Activities"
       chapters:
-      - 02-file-system-cleaning.qmd
-      - 03-adv-ggplot-notes.qmd
-      - 04-adv-maps-1-notes.qmd
-      - 06-wrangling-1-notes.qmd
+      - ica/03-adv-ggplot-notes.qmd
+      - ica/04_adv_maps/04-adv-maps-1-notes.qmd
+      - ica/06-wrangling-1-notes.qmd
 
     - part: "Extras"
       chapters:
