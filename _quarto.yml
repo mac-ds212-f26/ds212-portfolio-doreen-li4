@@ -75,8 +75,7 @@ book:
 
     - part: "In-Class Activities"
       chapters:
-      - ica/03-adv-ggplot-notes.qmd
-      - ica/04_adv_maps/04-adv-maps-1-notes.qmd
+      - ica/ica-sample1.qmd
       - ica/06-wrangling-1-notes.qmd
 
     - part: "Extras"
