@@ -20,7 +20,12 @@ Sep.22 - Adv wrangle I
 
 ![](Mindmap-pcl-4.png)
 
-Sep.28 - Adv wrangle II
+Sep.27 - Adv wrangle II
 
 ![](Notes-pcl-5.png)
+
+Oct.1 - Missing Data
+
+![](Notes-pcl-6.png)
+
 ## Quarto
