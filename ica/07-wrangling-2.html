@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>7 Adv Data wrangling II – COMP/STAT212 Portfolio</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../extra/extra-sample1.html" rel="next">
+<link href="../ica/06-wrangling-1-notes.html" rel="prev">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4d19aefb48ad38ff2cab56a9aaa2cf90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-5fd28e32898afb2497d041a01aebff7a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4d19aefb48ad38ff2cab56a9aaa2cf90.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="../site_libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="../site_libs/str_view-binding-1.5.1/str_view.js"></script><link rel="stylesheet" href="../style/custom.css">
+</head>
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Doreen Li</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Personal Viz Journey</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pvj/pvj-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Personal Visualization Journey</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">TidyTuesday</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw01-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HW 01: Tidy Tuesday</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw02-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 02</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pre-Class Learnings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pcl/pcl.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Pre-Class Learning Summaries</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">In-Class Activities</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA 3 Adv Data Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/02-file-system-cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cleaning SFO Weather Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Adv Data Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/04_adv_maps/code/04-adv-maps-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4 Adv Spatial Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/06-wrangling-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6 Adv Data wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/07-wrangling-2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">7 Adv Data wrangling II</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">🧩 Learning Goals</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  <li>
+<a href="#strings" id="toc-strings" class="nav-link" data-scroll-target="#strings">Strings</a>
+  <ul class="collapse">
+<li><a href="#create-strings" id="toc-create-strings" class="nav-link" data-scroll-target="#create-strings">Create Strings</a></li>
+  <li><a href="#quote-string" id="toc-quote-string" class="nav-link" data-scroll-target="#quote-string">✏️ Quote String</a></li>
+  <li><a href="#escape-characters" id="toc-escape-characters" class="nav-link" data-scroll-target="#escape-characters">Escape Characters</a></li>
+  <li><a href="#escape-backslash" id="toc-escape-backslash" class="nav-link" data-scroll-target="#escape-backslash">✏️ Escape Backslash</a></li>
+  <li><a href="#special-characters" id="toc-special-characters" class="nav-link" data-scroll-target="#special-characters">Special Characters</a></li>
+  <li><a href="#combine" id="toc-combine" class="nav-link" data-scroll-target="#combine">Combine</a></li>
+  <li><a href="#build-date-strings" id="toc-build-date-strings" class="nav-link" data-scroll-target="#build-date-strings">✏️ Build Date Strings</a></li>
+  <li><a href="#length" id="toc-length" class="nav-link" data-scroll-target="#length">Length</a></li>
+  <li><a href="#substring" id="toc-substring" class="nav-link" data-scroll-target="#substring">Substring</a></li>
+  <li><a href="#find-middle-letter" id="toc-find-middle-letter" class="nav-link" data-scroll-target="#find-middle-letter">✏️ Find Middle Letter</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#patterns" id="toc-patterns" class="nav-link" data-scroll-target="#patterns">Patterns</a>
+  <ul class="collapse">
+<li><a href="#quantifiers" id="toc-quantifiers" class="nav-link" data-scroll-target="#quantifiers">Quantifiers</a></li>
+  <li><a href="#predict-quantifier-matches" id="toc-predict-quantifier-matches" class="nav-link" data-scroll-target="#predict-quantifier-matches">✏️ Predict Quantifier Matches</a></li>
+  <li><a href="#character-classes" id="toc-character-classes" class="nav-link" data-scroll-target="#character-classes">Character Classes</a></li>
+  <li><a href="#find-vowel-pairs" id="toc-find-vowel-pairs" class="nav-link" data-scroll-target="#find-vowel-pairs">✏️ Find Vowel Pairs</a></li>
+  <li><a href="#alternation" id="toc-alternation" class="nav-link" data-scroll-target="#alternation">Alternation</a></li>
+  <li><a href="#find-repeated-vowels" id="toc-find-repeated-vowels" class="nav-link" data-scroll-target="#find-repeated-vowels">✏️ Find Repeated Vowels</a></li>
+  <li><a href="#anchors-groups" id="toc-anchors-groups" class="nav-link" data-scroll-target="#anchors-groups">Anchors &amp; Groups</a></li>
+  <li><a href="#find-words-with-y" id="toc-find-words-with-y" class="nav-link" data-scroll-target="#find-words-with-y">✏️ Find Words with y</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#dear-abby-letters" id="toc-dear-abby-letters" class="nav-link" data-scroll-target="#dear-abby-letters">Dear Abby Letters</a>
+  <ul class="collapse">
+<li><a href="#load-the-letters" id="toc-load-the-letters" class="nav-link" data-scroll-target="#load-the-letters">Load the Letters</a></li>
+  <li><a href="#regex-functions" id="toc-regex-functions" class="nav-link" data-scroll-target="#regex-functions">Regex Functions</a></li>
+  <li><a href="#search-for-themes" id="toc-search-for-themes" class="nav-link" data-scroll-target="#search-for-themes">✏️ Search for Themes</a></li>
+  </ul>
+</li>
+  <li><a href="#done" id="toc-done" class="nav-link" data-scroll-target="#done">Done!</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">7 Adv Data wrangling II</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="learning-goals" class="level2"><h2 class="anchored" data-anchor-id="learning-goals">🧩 Learning Goals</h2>
+<p>By the end of this lesson, you should be able to:</p>
+<ul>
+<li>Manipulate and explore strings using the <code>stringr</code> package</li>
+<li>Construct regular expressions to find patterns in strings</li>
+</ul></section><section id="motivation" class="level2"><h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>In 2018 the data journalism organization <a href="https://pudding.cool/">The Pudding</a> featured a story called <a href="https://pudding.cool/2018/11/dearabby/">30 Years of American Anxieties</a> highlighting themes in 30 years of posts to the Dear Abby column (an American advice column).</p>
+<p>To understand themes in text data, one can conduct a <strong>qualitative text analysis</strong> which is a manual process that involved multiple people reading through the instances of text several time until they reach a consensus about themes. Given the amount of labor involved, this process is suitable for medium datasets.</p>
+<p>For large datasets, one might want to use <strong>quantitative &amp; computational text analysis</strong> which leverages computers, data science techniques, and natural language process to extract themes from the data. We will explore this approach in this lesson.</p>
+<p>Both qualitative and computational approaches can be used in tandem. Often, using computational tools can help focus a close reading of select texts, which parallels the spirit of a qualitative analysis.</p>
+<p>To prepare ourselves for a computational analysis, let’s learn about strings.</p>
+</section><section id="strings" class="level2"><h2 class="anchored" data-anchor-id="strings">Strings</h2>
+<p>Strings are objects of the <code>character</code> class (abbreviated as <code>&lt;chr&gt;</code> in tibbles).</p>
+<p>When you print out strings, they display with double quotes:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a>some_string <span class="ot">&lt;-</span> <span class="st">"banana"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>some_string</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "banana"</code></pre>
+</div>
+</div>
+<p>Working with strings generally will involve the use of <strong>regular expressions</strong>, a tool for finding patterns in strings.</p>
+<p>Regular expressions (regex, for short) look like the following:</p>
+<pre><code>"^the" &lt;-- Find strings that start with "the"
+"end$" &lt;-- Find strings that end with "end"</code></pre>
+<p>Before getting to regular expressions, let’s go over some fundamentals about working with strings. The <code>stringr</code> package (which a package in the <code>tidyverse</code> ecosystem) is great for working with strings.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="fu">library</span>(tidyverse) <span class="co"># The stringr package is part of tidyverse</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="create-strings" class="level3"><h3 class="anchored" data-anchor-id="create-strings">Create Strings</h3>
+<p>Creating strings by hand is useful for testing out regular expressions.</p>
+<p>To create a string, type any text in either double quotes <code>"double"</code> or single quotes <code>'single'</code>. Using double or single quotes doesn’t matter unless your string itself has single or double quotes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>string1 <span class="ot">&lt;-</span> <span class="st">"This is a string"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>string2 <span class="ot">&lt;-</span> <span class="st">'If I want to include a "quote" inside a string, I use single quotes'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>string3 <span class="ot">&lt;-</span> <span class="fu">c</span>(string1, string2) <span class="co"># string / character vector (of greater than length 1)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a><span class="fu">class</span>(string1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a><span class="fu">class</span>(string2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="fu">class</span>(string3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a><span class="fu">length</span>(string1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="fu">length</span>(string2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a><span class="fu">length</span>(string3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>We can view these strings “naturally” (without the opening and closing quotes) with <code>str_view()</code>:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a><span class="fu">str_view</span>(string1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ This is a string</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-label="1"></a><span class="fu">str_view</span>(string2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ If I want to include a "quote" inside a string, I use single quotes</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-label="1"></a><span class="fu">str_view</span>(string3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ This is a string
+[2] │ If I want to include a "quote" inside a string, I use single quotes</code></pre>
+</div>
+</div>
+</section><section id="quote-string" class="level3"><h3 class="anchored" data-anchor-id="quote-string">✏️ Quote String</h3>
+<p>Create the string <code>It's Thursday</code>. What happens if you put the string inside single quotes? Double quotes?</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-label="2"></a>str <span class="ot">&lt;-</span> <span class="st">"It's Thursday"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-label="3"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-label="4"></a><span class="fu">str_view</span>(str)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ It's Thursday</code></pre>
+</div>
+</div>
+</section><section id="escape-characters" class="level3"><h3 class="anchored" data-anchor-id="escape-characters">Escape Characters</h3>
+<p>Because <code>"</code> and <code>'</code> are special characters in the creation of strings, R offers another way to put them inside a string. We can <strong>escape</strong> these special characters by putting a <code>\</code> in front of them:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-label="1"></a>string1 <span class="ot">&lt;-</span> <span class="st">"This is a string with </span><span class="sc">\"</span><span class="st">double quotes</span><span class="sc">\"</span><span class="st">"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-label="2"></a>string2 <span class="ot">&lt;-</span> <span class="st">"This is a string with </span><span class="sc">\'</span><span class="st">single quotes</span><span class="sc">\'</span><span class="st">"</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-label="3"></a><span class="fu">str_view</span>(string1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ This is a string with "double quotes"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-label="1"></a><span class="fu">str_view</span>(string2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ This is a string with 'single quotes'</code></pre>
+</div>
+</div>
+<p>Given that <code>\</code> is a special character, how can we put the <code>\</code> character in strings? We have to escape it with <code>\\</code>.</p>
+</section><section id="escape-backslash" class="level3"><h3 class="anchored" data-anchor-id="escape-backslash">✏️ Escape Backslash</h3>
+<p>Create the string <code>C:\Users</code>. What happens when you don’t escape the <code>\</code>?</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-label="2"></a>string <span class="ot">&lt;-</span> <span class="st">"C:</span><span class="sc">\\</span><span class="st">Users"</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-label="3"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-label="4"></a><span class="fu">str_view</span>(string)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ C:\Users</code></pre>
+</div>
+</div>
+</section><section id="special-characters" class="level3"><h3 class="anchored" data-anchor-id="special-characters">Special Characters</h3>
+<p>Other special characters include:</p>
+<ul>
+<li>
+<code>\t</code> &lt;- creates a tab</li>
+<li>
+<code>\n</code> &lt;- creates a newline</li>
+</ul>
+<p>Both can be useful in plots to more neatly arrange text.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-label="1"></a>string1 <span class="ot">&lt;-</span> <span class="st">"Record temp:</span><span class="sc">\t</span><span class="st">102"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-label="2"></a>string2 <span class="ot">&lt;-</span> <span class="st">"Record temp:</span><span class="sc">\n</span><span class="st">102"</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-label="3"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-label="4"></a><span class="fu">str_view</span>(string1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ Record temp:{\t}102</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-label="1"></a><span class="fu">str_view</span>(string2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ Record temp:
+    │ 102</code></pre>
+</div>
+</div>
+<p>Can we get <code>str_view()</code> to show the tab instead of <code>{\t}</code>? We can use the <code>html</code> argument to have the string displayed as if on a webpage:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a><span class="fu">str_view</span>(string1, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div class="str_view html-widget html-fill-item" id="htmlwidget-d9bdfb80f7ccdb03cc3c" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-d9bdfb80f7ccdb03cc3c">{"x":{"html":"<ul>\n  <li><pre>Record temp:<span class='special'>\t<\/span>102<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section><section id="combine" class="level3"><h3 class="anchored" data-anchor-id="combine">Combine</h3>
+<p>Often we will want to create new strings within data frames. We can use <code>str_c()</code> or <code>str_glue()</code>, both of which are vectorized functions, ie, they take vectors as inputs and provide vectors as outputs which means that they can be used within <code>mutate()</code></p>
+<ul>
+<li>With <code>str_c()</code> the strings to be combined are all arguments separated by commas.</li>
+<li>With <code>str_glue()</code> the desired string is written as a template with variable names inside curly braces <code><a href="https://rdrr.io/r/base/Paren.html">{}</a></code>.</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-label="1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-label="2"></a>    <span class="at">first_name =</span> <span class="fu">c</span>(<span class="st">"Arya"</span>, <span class="st">"Olenna"</span>, <span class="st">"Tyrion"</span>, <span class="st">"Melisandre"</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-label="3"></a>    <span class="at">last_name =</span> <span class="fu">c</span>(<span class="st">"Stark"</span>, <span class="st">"Tyrell"</span>, <span class="st">"Lannister"</span>, <span class="cn">NA</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-label="4"></a>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-label="5"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  first_name last_name
+  &lt;chr&gt;      &lt;chr&gt;    
+1 Arya       Stark    
+2 Olenna     Tyrell   
+3 Tyrion     Lannister
+4 Melisandre &lt;NA&gt;     </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-label="1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-label="2"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-label="3"></a>        <span class="at">full_name1 =</span> <span class="fu">str_c</span>(first_name, <span class="st">" "</span>, last_name),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-label="4"></a>        <span class="at">full_name2 =</span> <span class="fu">str_glue</span>(<span class="st">"{first_name} {last_name}"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-label="5"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  first_name last_name full_name1       full_name2      
+  &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;            &lt;glue&gt;          
+1 Arya       Stark     Arya Stark       Arya Stark      
+2 Olenna     Tyrell    Olenna Tyrell    Olenna Tyrell   
+3 Tyrion     Lannister Tyrion Lannister Tyrion Lannister
+4 Melisandre &lt;NA&gt;      &lt;NA&gt;             Melisandre NA   </code></pre>
+</div>
+</div>
+</section><section id="build-date-strings" class="level3"><h3 class="anchored" data-anchor-id="build-date-strings">✏️ Build Date Strings</h3>
+<p>In the following data frame, create a full date string in month-day-year format using both <code>str_c()</code> and <code>str_glue()</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a>df_dates <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-label="2"></a>    <span class="at">year =</span> <span class="dv">2000</span><span class="sc">:</span><span class="dv">2002</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-label="3"></a>    <span class="at">month =</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-label="4"></a>    <span class="at">day =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-label="5"></a>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-label="6"></a>df_dates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+   year month   day
+  &lt;int&gt; &lt;chr&gt; &lt;int&gt;
+1  2000 Jan       3
+2  2001 Feb       4
+3  2002 Mar       5</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a>df_dates <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">date1=</span> <span class="fu">str_c</span>(month,<span class="st">"-"</span>, day, <span class="st">"-"</span>, year),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-label="4"></a>         <span class="at">date2=</span> <span class="fu">str_glue</span>(<span class="st">"{month}-{day}-{year}"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+   year month   day date1      date2     
+  &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;      &lt;glue&gt;    
+1  2000 Jan       3 Jan-3-2000 Jan-3-2000
+2  2001 Feb       4 Feb-4-2001 Feb-4-2001
+3  2002 Mar       5 Mar-5-2002 Mar-5-2002</code></pre>
+</div>
+</div>
+</section><section id="length" class="level3"><h3 class="anchored" data-anchor-id="length">Length</h3>
+<p>The <code>str_length()</code> counts the number of characters in a string.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-label="1"></a>comments <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-label="2"></a>    <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-label="3"></a>    <span class="at">comment =</span> <span class="fu">c</span>(<span class="st">"The essay was well organized around the core message and had good transitions."</span>, <span class="st">"Good job!"</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-label="4"></a>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-label="5"></a>comments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  name  comment                                                                 
+  &lt;chr&gt; &lt;chr&gt;                                                                   
+1 Alice The essay was well organized around the core message and had good trans…
+2 Bob   Good job!                                                               </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a>comments <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-label="2"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-label="3"></a>        <span class="at">comment_length =</span> <span class="fu">str_length</span>(comment)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-label="4"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  name  comment                                                   comment_length
+  &lt;chr&gt; &lt;chr&gt;                                                              &lt;int&gt;
+1 Alice The essay was well organized around the core message and…             78
+2 Bob   Good job!                                                              9</code></pre>
+</div>
+</div>
+</section><section id="substring" class="level3"><h3 class="anchored" data-anchor-id="substring">Substring</h3>
+<p>The <code>str_sub()</code> function gets a substring of a string. The 2nd and 3rd arguments indicate the beginning and ending position to extract.</p>
+<ul>
+<li>Negative positions indicate the position from the end of the word, eg, -3 indicates “3rd letter from the end”</li>
+<li>Specifying a position that goes beyond the word won’t result in an error. <code>str_sub()</code> will just go as far as possible.</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Apple"</span>, <span class="st">"Banana"</span>, <span class="st">"Pear"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-label="2"></a>x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "Apple"  "Banana" "Pear"  </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-label="1"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "App" "Ban" "Pea"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-label="1"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "ple" "ana" "ear"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-label="1"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="dv">2</span>, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "pple"  "anana" "ear"  </code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-label="1"></a><span class="fu">str_sub</span>(<span class="st">"a"</span>, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "a"</code></pre>
+</div>
+</div>
+</section><section id="find-middle-letter" class="level3"><h3 class="anchored" data-anchor-id="find-middle-letter">✏️ Find Middle Letter</h3>
+<p>Using <code>str_sub()</code>, create a new variable with only the middle letter of each word in the data frame below. (Challenge: How would you handle words with an even number of letters?)</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-label="1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-label="2"></a>    <span class="at">word_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-label="3"></a>    <span class="at">word =</span> <span class="fu">c</span>(<span class="st">"replace"</span>, <span class="st">"match"</span>, <span class="st">"pattern"</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-label="4"></a>)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-label="5"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  word_id word   
+    &lt;int&gt; &lt;chr&gt;  
+1       1 replace
+2       2 match  
+3       3 pattern</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-label="2"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">word_length =</span> <span class="fu">str_length</span>(word),</span>
+<span id="cb60-4"><a href="#cb60-4" aria-label="4"></a>        <span class="at">middle_pos =</span> <span class="fu">ceiling</span>(word_length<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb60-5"><a href="#cb60-5" aria-label="5"></a>        <span class="at">middle_letter =</span> <span class="fu">str_sub</span>(word, middle_pos, middle_pos))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  word_id word    word_length middle_pos middle_letter
+    &lt;int&gt; &lt;chr&gt;         &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;        
+1       1 replace           7          4 l            
+2       2 match             5          3 t            
+3       3 pattern           7          4 t            </code></pre>
+</div>
+</div>
+</section></section><section id="patterns" class="level2"><h2 class="anchored" data-anchor-id="patterns">Patterns</h2>
+<p>Suppose that you’re exploring text data looking for places where people describe happiness. There are many ways to search. We could search for the word “happy” but that excludes “happiness” so we might search for “happi”.</p>
+<p><strong>Regular expressions</strong> (regex) are a powerful language for describing patterns within strings.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-label="1"></a><span class="co"># load few datasets</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-label="2"></a><span class="fu">data</span>(fruit)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-label="3"></a><span class="fu">sample</span>(fruit, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] "damson"       "apricot"      "papaya"       "breadfruit"   "avocado"     
+ [6] "elderberry"   "canary melon" "lemon"        "pear"         "lime"        </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-label="1"></a><span class="fu">data</span>(words)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-label="2"></a><span class="fu">sample</span>(words, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] "note"   "doctor" "assume" "feed"   "run"    "look"   "in"     "teach" 
+ [9] "act"    "stuff" </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-label="1"></a><span class="fu">data</span>(sentences)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-label="2"></a><span class="fu">sample</span>(sentences, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] "A fresh start will work such wonders."        
+ [2] "The third act was dull and tired the players."
+ [3] "Jerk the cord, and out tumbles the gold."     
+ [4] "A sash of gold silk will trim her dress."     
+ [5] "The work of the tailor is seen on each side." 
+ [6] "Slide the bill between the two leaves."       
+ [7] "A shower of dirt fell from the hot pipes."    
+ [8] "Add the sum to the product of these three."   
+ [9] "The team with the best timing looks good."    
+[10] "The flint sputtered and lit a pine torch."    </code></pre>
+</div>
+</div>
+<p>We can use <code>str_view()</code> with the <code>pattern</code> argument to see what parts of a string match the regex supplied in the <code>pattern</code> argument. (Matches are enclosed in <code>&lt;&gt;</code>.)</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-label="1"></a><span class="fu">str_view</span>(fruit, <span class="st">"berry"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [6] │ bil&lt;berry&gt;
+ [7] │ black&lt;berry&gt;
+[10] │ blue&lt;berry&gt;
+[11] │ boysen&lt;berry&gt;
+[19] │ cloud&lt;berry&gt;
+[21] │ cran&lt;berry&gt;
+[29] │ elder&lt;berry&gt;
+[32] │ goji &lt;berry&gt;
+[33] │ goose&lt;berry&gt;
+[38] │ huckle&lt;berry&gt;
+[50] │ mul&lt;berry&gt;
+[70] │ rasp&lt;berry&gt;
+[73] │ salal &lt;berry&gt;
+[76] │ straw&lt;berry&gt;</code></pre>
+</div>
+</div>
+<section id="quantifiers" class="level3"><h3 class="anchored" data-anchor-id="quantifiers">Quantifiers</h3>
+<ul>
+<li>Letters and numbers in a regex are matched exactly and are called <strong>literal characters</strong>.</li>
+<li>Most punctuation characters, like <code>.</code>, <code>+</code>, <code>*</code>, <code>[</code>, <code>]</code>, and <code>?</code>, have special meanings and are called <strong>metacharacters</strong>.</li>
+<li>
+<strong>Quantifiers</strong> are metacharacters that specify how many times the proceeding character (group or character class) must occurs for a match to be found:
+<ul>
+<li>
+<code>?</code>: the proceeding character must occurs 0 or 1 times for a match to be found</li>
+<li>
+<code>+</code>: the proceeding character must occurs 1+ (1 or more times) for a match to be found</li>
+<li>
+<code>*</code>: the proceeding character must occurs 0+ (0 or more times) for a match to be found</li>
+</ul>
+</li>
+</ul></section><section id="predict-quantifier-matches" class="level3"><h3 class="anchored" data-anchor-id="predict-quantifier-matches">✏️ Predict Quantifier Matches</h3>
+<p>Before running the code below, predict what matches will be made. Run the code to check your guesses. Note that in all regex’s below the <code>?</code>, <code>+</code>, <code>*</code> applies to the <code>b</code> only (not the <code>a</code>).</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-label="1"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;a&gt;
+[2] │ &lt;ab&gt;
+[3] │ &lt;ab&gt;b</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-label="1"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab+"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[2] │ &lt;ab&gt;
+[3] │ &lt;abb&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-label="1"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab*"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] │ &lt;a&gt;
+[2] │ &lt;ab&gt;
+[3] │ &lt;abb&gt;</code></pre>
+</div>
+</div>
+</section><section id="character-classes" class="level3"><h3 class="anchored" data-anchor-id="character-classes">Character Classes</h3>
+<ul>
+<li>We can match any of a set of characters with <code>[]</code> (called a <strong>character class</strong>), e.g., <code>[abcd]</code> matches “a”, “b”, “c”, or “d”.</li>
+<li>We can invert the match by starting with <code>^</code>: <code>[^abcd]</code> matches anything except “a”, “b”, “c”, or “d”.</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-label="1"></a><span class="co"># Match words that have vowel-x-vowel</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-label="2"></a><span class="fu">str_view</span>(words, <span class="st">"[aeiou]x[aeiou]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[284] │ &lt;exa&gt;ct
+[285] │ &lt;exa&gt;mple
+[288] │ &lt;exe&gt;rcise
+[289] │ &lt;exi&gt;st</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-label="1"></a><span class="co"># Match words that have not_vowel-y-not_vowel</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-label="2"></a><span class="fu">str_view</span>(words, <span class="st">"[^aeiou]y[^aeiou]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[836] │ &lt;sys&gt;tem
+[901] │ &lt;typ&gt;e</code></pre>
+</div>
+</div>
+</section><section id="find-vowel-pairs" class="level3"><h3 class="anchored" data-anchor-id="find-vowel-pairs">✏️ Find Vowel Pairs</h3>
+<p>Using the <code>words</code> dataset, find words that have two vowels in a row followed by an “m”.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-label="1"></a><span class="fu">str_view</span>(words, <span class="st">"[aeiou][aeiou]m"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[154] │ cl&lt;aim&gt;
+[714] │ r&lt;oom&gt;
+[735] │ s&lt;eem&gt;
+[844] │ t&lt;eam&gt;</code></pre>
+</div>
+</div>
+</section><section id="alternation" class="level3"><h3 class="anchored" data-anchor-id="alternation">Alternation</h3>
+<ul>
+<li>The <strong>alternation</strong> operator <code>|</code> can be read just like the logical operator <code>|</code> (“OR”) to pick between one or more alternative patterns, eg, <code>apple|banana</code> searches for “apple” or “banana”.</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-label="1"></a><span class="fu">str_view</span>(fruit, <span class="st">"apple|melon|nut"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] │ &lt;apple&gt;
+[13] │ canary &lt;melon&gt;
+[20] │ coco&lt;nut&gt;
+[52] │ &lt;nut&gt;
+[62] │ pine&lt;apple&gt;
+[72] │ rock &lt;melon&gt;
+[80] │ water&lt;melon&gt;</code></pre>
+</div>
+</div>
+</section><section id="find-repeated-vowels" class="level3"><h3 class="anchored" data-anchor-id="find-repeated-vowels">✏️ Find Repeated Vowels</h3>
+<p>Using the <code>fruit</code> dataset, find fruits that have a repeated vowel (“aa”, “ee”, “ii”, “oo”, or “uu”.)</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-label="2"></a><span class="fu">str_view</span>(fruit, <span class="st">"aa|ee|ii|oo|uu"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [9] │ bl&lt;oo&gt;d orange
+[33] │ g&lt;oo&gt;seberry
+[47] │ lych&lt;ee&gt;
+[66] │ purple mangost&lt;ee&gt;n</code></pre>
+</div>
+</div>
+</section><section id="anchors-groups" class="level3"><h3 class="anchored" data-anchor-id="anchors-groups">Anchors &amp; Groups</h3>
+<ul>
+<li>The <code>^</code> operator indicates the beginning of a string, and the <code>$</code> operator indicates the end of a string, eg, <code>^a</code> matches strings that start with “a”, and <code>a$</code> matches words that end with “a”.</li>
+<li>Parentheses group together parts of a regular expression that should be taken as a bundle. Much like parentheses in arithmetic statements, eg, <code>ab+</code> is a little confusing. Does it match “ab” one or more times? Or does it match “a” first, then just “b” one or more times? (The latter, as we saw in an earlier example.) We can be very explicit and use <code>a(b)+</code>.</li>
+</ul></section><section id="find-words-with-y" class="level3"><h3 class="anchored" data-anchor-id="find-words-with-y">✏️ Find Words with y</h3>
+<p>Using the <code>words</code> dataset, find words that start with “y”</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-label="1"></a><span class="co"># write your answer below</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Using the <code>words</code> dataset again, find words that don’t start with “y”.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-label="1"></a><span class="co"># write your answer below</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-label="2"></a><span class="fu">str_view</span>(words, <span class="st">"^y"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[975] │ &lt;y&gt;ear
+[976] │ &lt;y&gt;es
+[977] │ &lt;y&gt;esterday
+[978] │ &lt;y&gt;et
+[979] │ &lt;y&gt;ou
+[980] │ &lt;y&gt;oung</code></pre>
+</div>
+</div>
+</section></section><section id="dear-abby-letters" class="level2"><h2 class="anchored" data-anchor-id="dear-abby-letters">Dear Abby Letters</h2>
+<section id="load-the-letters" class="level3"><h3 class="anchored" data-anchor-id="load-the-letters">Load the Letters</h3>
+<p>Read in the “Dear Abby” data underlying The Pudding’s <a href="https://pudding.cool/2018/11/dearabby/">30 Years of American Anxieties</a> article.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-label="1"></a>posts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/the-pudding/data/master/dearabby/raw_da_qs.csv"</span>)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-label="2"></a><span class="fu">str</span>(posts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [20,034 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ year         : num [1:20034] 1985 1985 1985 1985 1985 ...
+ $ month        : num [1:20034] 1 1 1 1 1 1 1 1 1 1 ...
+ $ day          : chr [1:20034] "01" "01" "02" "03" ...
+ $ url          : chr [1:20034] "proquest" "proquest" "proquest" "proquest" ...
+ $ title        : chr [1:20034] "WOMAN NEEDS HELP: HER BURDEN OF HOPELESSNESS IS TOO HEAVY TO CARRY" "WOMAN NEEDS HELP: HER BURDEN OF HOPELESSNESS IS TOO HEAVY TO CARRY" "LAMENT ABOUT OLD AGE AND SICKNESS IS ILL-ADVISED" "'NORMAL' WIDOW HAS AN EYE FOR THE GUYS" ...
+ $ letterId     : num [1:20034] 1 1 1 1 1 1 1 1 1 1 ...
+ $ question_only: chr [1:20034] "i have been in a bad marriage for 40 years. i knew it was a mistake after the first year, but being a catholic,"| __truncated__ "this is for all newspaper carriers, mail carriers and delivery people: when you see a dog, barking and growling"| __truncated__ "our 16-year-old son recently was placed in a state\nfacility because of many problems at home and with the law."| __truncated__ "i was a happy, respectable wife for 40 years, and now i'm a lonely, respectable widow. i work, join women's clu"| __truncated__ ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   year = col_double(),
+  ..   month = col_double(),
+  ..   day = col_character(),
+  ..   url = col_character(),
+  ..   title = col_character(),
+  ..   letterId = col_double(),
+  ..   question_only = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<p>Take a couple minutes to scroll through the <a href="https://pudding.cool/2018/11/dearabby/">30 Years of American Anxieties</a> article to get ideas for themes that you might want to search for using regular expressions.</p>
+</section><section id="regex-functions" class="level3"><h3 class="anchored" data-anchor-id="regex-functions">Regex Functions</h3>
+<p>The following are core <code>stringr</code> functions that use regular expressions:</p>
+<ul>
+<li>
+<code>str_view()</code> - View the first occurrence in a string that matches the regex</li>
+<li>
+<code>str_count()</code> - Count the number of times a regex matches within a string</li>
+<li>
+<code>str_detect()</code> - Determine if (TRUE/FALSE) the regex is found within string</li>
+<li>
+<code>str_subset()</code> - Return subset of strings that match the regex</li>
+<li>
+<code>str_extract(), str_extract_all()</code> - Return portion of each string that matches the regex. <code>str_extract()</code> extracts the first instance of the match. <code>str_extract_all()</code> extracts all matches.</li>
+<li>
+<code>str_replace(), str_replace_all()</code> - Replace portion of string that matches the regex with something else. <code>str_replace()</code> replaces the first instance of the match. <code>str_replace_all()</code> replaces all instances of the match.</li>
+<li>
+<code>str_remove(), str_remove_all()</code> - Removes the portion of the string that matches the pattern. Equivalent to <code>str_replace(x, "THE REGEX PATTERN", "")</code>
+</li>
+</ul></section><section id="search-for-themes" class="level3"><h3 class="anchored" data-anchor-id="search-for-themes">✏️ Search for Themes</h3>
+<p>Pick a theme from the article and use each of the functions above, starting with <code>str_count()</code>, to search for it in the <code>posts</code> data. Pull up each function’s documentation page and read through the arguments as you go.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">marriage_count =</span> <span class="fu">str_count</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-label="3"></a>  <span class="fu">summarize</span>(<span class="at">total_mentions =</span> <span class="fu">sum</span>(marriage_count))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  total_mentions
+           &lt;int&gt;
+1          10117</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-label="1"></a><span class="fu">str_view</span>(posts<span class="sc">$</span>question[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>],</span>
+<span id="cb93-2"><a href="#cb93-2" aria-label="2"></a>  <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb93-3"><a href="#cb93-3" aria-label="3"></a></span>
+<span id="cb93-4"><a href="#cb93-4" aria-label="4"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-label="5"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-label="6"></a>  <span class="fu">select</span>(year, question_only)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,612 × 2
+    year question_only                                                          
+   &lt;dbl&gt; &lt;chr&gt;                                                                  
+ 1  1985 "i have been in a bad marriage for 40 years. i knew it was a mistake a…
+ 2  1985 "first one grandma says, \"marriage is the price a man pays for sex, a…
+ 3  1985 "like a lot of other people, the only time i write to some of my frien…
+ 4  1985 "it all started one day while i was walking to work. i saw this nice-l…
+ 5  1985 "my son hasn't had a decent meal since he married a girl i'll call ali…
+ 6  1985 "a marriage of 35 years is about to end because my spouse has become r…
+ 7  1985 "the 80-year-old woman who is heartsick about her 28-year-old grandson…
+ 8  1985 "please print this for people who want to marry outside their religion…
+ 9  1985 "my husband and his two sisters (all married with children) had a stud…
+10  1985 "i am a young, divorced mother, and my problem is that when i get aske…
+# ℹ 5,602 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-label="1"></a><span class="fu">str_subset</span>(posts<span class="sc">$</span>question,</span>
+<span id="cb95-2"><a href="#cb95-2" aria-label="2"></a>  <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>character(0)</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">first_match =</span> <span class="fu">str_extract</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-label="3"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(first_match)) <span class="sc">|&gt;</span></span>
+<span id="cb97-4"><a href="#cb97-4" aria-label="4"></a>  <span class="fu">select</span>(year, first_match, question_only)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,612 × 3
+    year first_match question_only                                              
+   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;                                                      
+ 1  1985 marriage    "i have been in a bad marriage for 40 years. i knew it was…
+ 2  1985 marriage    "first one grandma says, \"marriage is the price a man pay…
+ 3  1985 divorce     "like a lot of other people, the only time i write to some…
+ 4  1985 married     "it all started one day while i was walking to work. i saw…
+ 5  1985 married     "my son hasn't had a decent meal since he married a girl i…
+ 6  1985 marriage    "a marriage of 35 years is about to end because my spouse …
+ 7  1985 divorce     "the 80-year-old woman who is heartsick about her 28-year-…
+ 8  1985 married     "please print this for people who want to marry outside th…
+ 9  1985 married     "my husband and his two sisters (all married with children…
+10  1985 divorce     "i am a young, divorced mother, and my problem is that whe…
+# ℹ 5,602 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">all_matches =</span> <span class="fu">str_extract_all</span>(question_only,</span>
+<span id="cb99-3"><a href="#cb99-3" aria-label="3"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb99-4"><a href="#cb99-4" aria-label="4"></a>  <span class="fu">filter</span>(<span class="fu">lengths</span>(all_matches) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb99-5"><a href="#cb99-5" aria-label="5"></a>  <span class="fu">select</span>(year, all_matches)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,612 × 2
+    year all_matches
+   &lt;dbl&gt; &lt;list&gt;     
+ 1  1985 &lt;chr [2]&gt;  
+ 2  1985 &lt;chr [3]&gt;  
+ 3  1985 &lt;chr [3]&gt;  
+ 4  1985 &lt;chr [1]&gt;  
+ 5  1985 &lt;chr [1]&gt;  
+ 6  1985 &lt;chr [2]&gt;  
+ 7  1985 &lt;chr [2]&gt;  
+ 8  1985 &lt;chr [1]&gt;  
+ 9  1985 &lt;chr [1]&gt;  
+10  1985 &lt;chr [1]&gt;  
+# ℹ 5,602 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb101-2"><a href="#cb101-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">edited =</span> <span class="fu">str_replace</span>(question_only,</span>
+<span id="cb101-3"><a href="#cb101-3" aria-label="3"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>),<span class="st">"RELATIONSHIP"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb101-4"><a href="#cb101-4" aria-label="4"></a>  <span class="fu">select</span>(question_only, edited)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20,034 × 2
+   question_only                                                          edited
+   &lt;chr&gt;                                                                  &lt;chr&gt; 
+ 1 "i have been in a bad marriage for 40 years. i knew it was a mistake … "i ha…
+ 2 "this is for all newspaper carriers, mail carriers and delivery peopl… "this…
+ 3 "our 16-year-old son recently was placed in a state\nfacility because… "our …
+ 4 "i was a happy, respectable wife for 40 years, and now i'm a lonely, … "i wa…
+ 5 "you be the judge: last night about 7 p.m. i was relaxing in my tub w… "you …
+ 6 "a further word about taking children out of school for dental appoin… "a fu…
+ 7 "first one grandma says, \"marriage is the price a man pays for sex, … "firs…
+ 8 "like a lot of other people, the only time i write to some of my frie… "like…
+ 9 "it all started one day while i was walking to work. i saw this nice-… "it a…
+10 "my son hasn't had a decent meal since he married a girl i'll call al… "my s…
+# ℹ 20,024 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">removed =</span> <span class="fu">str_remove</span>(question_only,</span>
+<span id="cb103-3"><a href="#cb103-3" aria-label="3"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-label="4"></a>  <span class="fu">select</span>(question_only, removed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20,034 × 2
+   question_only                                                         removed
+   &lt;chr&gt;                                                                 &lt;chr&gt;  
+ 1 "i have been in a bad marriage for 40 years. i knew it was a mistake… "i hav…
+ 2 "this is for all newspaper carriers, mail carriers and delivery peop… "this …
+ 3 "our 16-year-old son recently was placed in a state\nfacility becaus… "our 1…
+ 4 "i was a happy, respectable wife for 40 years, and now i'm a lonely,… "i was…
+ 5 "you be the judge: last night about 7 p.m. i was relaxing in my tub … "you b…
+ 6 "a further word about taking children out of school for dental appoi… "a fur…
+ 7 "first one grandma says, \"marriage is the price a man pays for sex,… "first…
+ 8 "like a lot of other people, the only time i write to some of my fri… "like …
+ 9 "it all started one day while i was walking to work. i saw this nice… "it al…
+10 "my son hasn't had a decent meal since he married a girl i'll call a… "my so…
+# ℹ 20,024 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-label="1"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">removed =</span> <span class="fu">str_remove_all</span>(question_only,</span>
+<span id="cb105-3"><a href="#cb105-3" aria-label="3"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-label="4"></a>  <span class="fu">select</span>(question_only, removed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20,034 × 2
+   question_only                                                         removed
+   &lt;chr&gt;                                                                 &lt;chr&gt;  
+ 1 "i have been in a bad marriage for 40 years. i knew it was a mistake… "i hav…
+ 2 "this is for all newspaper carriers, mail carriers and delivery peop… "this …
+ 3 "our 16-year-old son recently was placed in a state\nfacility becaus… "our 1…
+ 4 "i was a happy, respectable wife for 40 years, and now i'm a lonely,… "i was…
+ 5 "you be the judge: last night about 7 p.m. i was relaxing in my tub … "you b…
+ 6 "a further word about taking children out of school for dental appoi… "a fur…
+ 7 "first one grandma says, \"marriage is the price a man pays for sex,… "first…
+ 8 "like a lot of other people, the only time i write to some of my fri… "like …
+ 9 "it all started one day while i was walking to work. i saw this nice… "it al…
+10 "my son hasn't had a decent meal since he married a girl i'll call a… "my so…
+# ℹ 20,024 more rows</code></pre>
+</div>
+</div>
+</section></section><section id="done" class="level2"><h2 class="anchored" data-anchor-id="done">Done!</h2>
+<ul>
+<li>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</li>
+</ul>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation column-body"><div class="nav-page nav-page-previous">
+      <a href="../ica/06-wrangling-1-notes.html" class="pagination-link" aria-label="6 Adv Data wrangling I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">6 Adv Data wrangling I</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../extra/extra-sample1.html" class="pagination-link" aria-label="Extra Sample 1">
+        <span class="nav-page-text"><span class="chapter-title">Extra Sample 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb107-1"><a href="#cb107-1" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb107-2"><a href="#cb107-2" aria-label="2"></a><span class="an">title:</span><span class="co"> "7 Adv Data wrangling II"</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-label="3"></a><span class="co">---</span></span>
+<span id="cb107-4"><a href="#cb107-4" aria-label="4"></a></span>
+<span id="cb107-5"><a href="#cb107-5" aria-label="5"></a></span>
+<span id="cb107-6"><a href="#cb107-6" aria-label="6"></a></span>
+<span id="cb107-7"><a href="#cb107-7" aria-label="7"></a><span class="fu">## 🧩 Learning Goals</span></span>
+<span id="cb107-8"><a href="#cb107-8" aria-label="8"></a></span>
+<span id="cb107-9"><a href="#cb107-9" aria-label="9"></a>By the end of this lesson, you should be able to:</span>
+<span id="cb107-10"><a href="#cb107-10" aria-label="10"></a></span>
+<span id="cb107-11"><a href="#cb107-11" aria-label="11"></a><span class="ss">- </span>Manipulate and explore strings using the <span class="in">`stringr`</span> package</span>
+<span id="cb107-12"><a href="#cb107-12" aria-label="12"></a><span class="ss">- </span>Construct regular expressions to find patterns in strings</span>
+<span id="cb107-13"><a href="#cb107-13" aria-label="13"></a></span>
+<span id="cb107-14"><a href="#cb107-14" aria-label="14"></a></span>
+<span id="cb107-15"><a href="#cb107-15" aria-label="15"></a><span class="fu">## Motivation</span></span>
+<span id="cb107-16"><a href="#cb107-16" aria-label="16"></a></span>
+<span id="cb107-17"><a href="#cb107-17" aria-label="17"></a>In 2018 the data journalism organization <span class="co">[</span><span class="ot">The Pudding</span><span class="co">](https://pudding.cool/)</span> featured a story called <span class="co">[</span><span class="ot">30 Years of American Anxieties</span><span class="co">](https://pudding.cool/2018/11/dearabby/)</span> highlighting themes in 30 years of posts to the Dear Abby column (an American advice column).</span>
+<span id="cb107-18"><a href="#cb107-18" aria-label="18"></a></span>
+<span id="cb107-19"><a href="#cb107-19" aria-label="19"></a>To understand themes in text data, one can conduct a **qualitative text analysis** which is a manual process that involved multiple people reading through the instances of text several time until they reach a consensus about themes.  Given the amount of labor involved, this process is suitable for medium datasets.</span>
+<span id="cb107-20"><a href="#cb107-20" aria-label="20"></a></span>
+<span id="cb107-21"><a href="#cb107-21" aria-label="21"></a>For large datasets, one might want to use **quantitative &amp; computational text analysis** which leverages computers, data science techniques, and natural language process to extract themes from the data.  We will explore this approach in this lesson.</span>
+<span id="cb107-22"><a href="#cb107-22" aria-label="22"></a></span>
+<span id="cb107-23"><a href="#cb107-23" aria-label="23"></a>Both qualitative and computational approaches can be used in tandem. Often, using computational tools can help focus a close reading of select texts, which parallels the spirit of a qualitative analysis.</span>
+<span id="cb107-24"><a href="#cb107-24" aria-label="24"></a></span>
+<span id="cb107-25"><a href="#cb107-25" aria-label="25"></a>To prepare ourselves for a computational analysis, let's learn about strings.</span>
+<span id="cb107-26"><a href="#cb107-26" aria-label="26"></a></span>
+<span id="cb107-27"><a href="#cb107-27" aria-label="27"></a></span>
+<span id="cb107-28"><a href="#cb107-28" aria-label="28"></a><span class="fu">## Strings</span></span>
+<span id="cb107-29"><a href="#cb107-29" aria-label="29"></a></span>
+<span id="cb107-30"><a href="#cb107-30" aria-label="30"></a>Strings are objects of the <span class="in">`character`</span> class (abbreviated as <span class="in">`&lt;chr&gt;`</span> in tibbles).</span>
+<span id="cb107-31"><a href="#cb107-31" aria-label="31"></a></span>
+<span id="cb107-32"><a href="#cb107-32" aria-label="32"></a>When you print out strings, they display with double quotes:</span>
+<span id="cb107-33"><a href="#cb107-33" aria-label="33"></a></span>
+<span id="cb107-34"><a href="#cb107-34" aria-label="34"></a><span class="in">```{r chr_class}</span></span>
+<span id="cb107-35"><a href="#cb107-35" aria-label="35"></a>some_string <span class="ot">&lt;-</span> <span class="st">"banana"</span></span>
+<span id="cb107-36"><a href="#cb107-36" aria-label="36"></a>some_string</span>
+<span id="cb107-37"><a href="#cb107-37" aria-label="37"></a><span class="in">```</span></span>
+<span id="cb107-38"><a href="#cb107-38" aria-label="38"></a></span>
+<span id="cb107-39"><a href="#cb107-39" aria-label="39"></a>Working with strings generally will involve the use of **regular expressions**, a tool for finding patterns in strings.</span>
+<span id="cb107-40"><a href="#cb107-40" aria-label="40"></a></span>
+<span id="cb107-41"><a href="#cb107-41" aria-label="41"></a>Regular expressions (regex, for short) look like the following:</span>
+<span id="cb107-42"><a href="#cb107-42" aria-label="42"></a></span>
+<span id="cb107-43"><a href="#cb107-43" aria-label="43"></a><span class="in">```</span></span>
+<span id="cb107-44"><a href="#cb107-44" aria-label="44"></a><span class="in">"^the" &lt;-- Find strings that start with "the"</span></span>
+<span id="cb107-45"><a href="#cb107-45" aria-label="45"></a><span class="in">"end$" &lt;-- Find strings that end with "end"</span></span>
+<span id="cb107-46"><a href="#cb107-46" aria-label="46"></a><span class="in">```</span></span>
+<span id="cb107-47"><a href="#cb107-47" aria-label="47"></a></span>
+<span id="cb107-48"><a href="#cb107-48" aria-label="48"></a>Before getting to regular expressions, let's go over some fundamentals about working with strings. The <span class="in">`stringr`</span> package (which a package in the <span class="in">`tidyverse`</span> ecosystem) is great for working with strings.</span>
+<span id="cb107-49"><a href="#cb107-49" aria-label="49"></a></span>
+<span id="cb107-50"><a href="#cb107-50" aria-label="50"></a><span class="in">```{r doc_setup_07}</span></span>
+<span id="cb107-51"><a href="#cb107-51" aria-label="51"></a><span class="co">#| message: false</span></span>
+<span id="cb107-52"><a href="#cb107-52" aria-label="52"></a></span>
+<span id="cb107-53"><a href="#cb107-53" aria-label="53"></a><span class="fu">library</span>(tidyverse) <span class="co"># The stringr package is part of tidyverse</span></span>
+<span id="cb107-54"><a href="#cb107-54" aria-label="54"></a><span class="in">```</span></span>
+<span id="cb107-55"><a href="#cb107-55" aria-label="55"></a></span>
+<span id="cb107-56"><a href="#cb107-56" aria-label="56"></a></span>
+<span id="cb107-57"><a href="#cb107-57" aria-label="57"></a><span class="fu">### Create Strings</span></span>
+<span id="cb107-58"><a href="#cb107-58" aria-label="58"></a></span>
+<span id="cb107-59"><a href="#cb107-59" aria-label="59"></a>Creating strings by hand is useful for testing out regular expressions.</span>
+<span id="cb107-60"><a href="#cb107-60" aria-label="60"></a></span>
+<span id="cb107-61"><a href="#cb107-61" aria-label="61"></a>To create a string, type any text in either double quotes <span class="in">`"double"`</span> or single quotes <span class="in">`'single'`</span>. Using double or single quotes doesn't matter unless your string itself has single or double quotes.</span>
+<span id="cb107-62"><a href="#cb107-62" aria-label="62"></a></span>
+<span id="cb107-63"><a href="#cb107-63" aria-label="63"></a><span class="in">```{r create_strings}</span></span>
+<span id="cb107-64"><a href="#cb107-64" aria-label="64"></a>string1 <span class="ot">&lt;-</span> <span class="st">"This is a string"</span></span>
+<span id="cb107-65"><a href="#cb107-65" aria-label="65"></a>string2 <span class="ot">&lt;-</span> <span class="st">'If I want to include a "quote" inside a string, I use single quotes'</span></span>
+<span id="cb107-66"><a href="#cb107-66" aria-label="66"></a>string3 <span class="ot">&lt;-</span> <span class="fu">c</span>(string1, string2) <span class="co"># string / character vector (of greater than length 1)</span></span>
+<span id="cb107-67"><a href="#cb107-67" aria-label="67"></a></span>
+<span id="cb107-68"><a href="#cb107-68" aria-label="68"></a></span>
+<span id="cb107-69"><a href="#cb107-69" aria-label="69"></a><span class="fu">class</span>(string1)</span>
+<span id="cb107-70"><a href="#cb107-70" aria-label="70"></a><span class="fu">class</span>(string2)</span>
+<span id="cb107-71"><a href="#cb107-71" aria-label="71"></a><span class="fu">class</span>(string3)</span>
+<span id="cb107-72"><a href="#cb107-72" aria-label="72"></a></span>
+<span id="cb107-73"><a href="#cb107-73" aria-label="73"></a><span class="fu">length</span>(string1)</span>
+<span id="cb107-74"><a href="#cb107-74" aria-label="74"></a><span class="fu">length</span>(string2)</span>
+<span id="cb107-75"><a href="#cb107-75" aria-label="75"></a><span class="fu">length</span>(string3)</span>
+<span id="cb107-76"><a href="#cb107-76" aria-label="76"></a><span class="in">```</span></span>
+<span id="cb107-77"><a href="#cb107-77" aria-label="77"></a></span>
+<span id="cb107-78"><a href="#cb107-78" aria-label="78"></a>We can view these strings "naturally" (without the opening and closing quotes) with <span class="in">`str_view()`</span>:</span>
+<span id="cb107-79"><a href="#cb107-79" aria-label="79"></a></span>
+<span id="cb107-80"><a href="#cb107-80" aria-label="80"></a><span class="in">```{r str_view}</span></span>
+<span id="cb107-81"><a href="#cb107-81" aria-label="81"></a><span class="fu">str_view</span>(string1)</span>
+<span id="cb107-82"><a href="#cb107-82" aria-label="82"></a><span class="fu">str_view</span>(string2)</span>
+<span id="cb107-83"><a href="#cb107-83" aria-label="83"></a><span class="fu">str_view</span>(string3)</span>
+<span id="cb107-84"><a href="#cb107-84" aria-label="84"></a><span class="in">```</span></span>
+<span id="cb107-85"><a href="#cb107-85" aria-label="85"></a></span>
+<span id="cb107-86"><a href="#cb107-86" aria-label="86"></a></span>
+<span id="cb107-87"><a href="#cb107-87" aria-label="87"></a><span class="fu">### ✏️ Quote String</span></span>
+<span id="cb107-88"><a href="#cb107-88" aria-label="88"></a></span>
+<span id="cb107-89"><a href="#cb107-89" aria-label="89"></a>Create the string <span class="in">`It's Thursday`</span>. What happens if you put the string inside single quotes? Double quotes?</span>
+<span id="cb107-90"><a href="#cb107-90" aria-label="90"></a></span>
+<span id="cb107-91"><a href="#cb107-91" aria-label="91"></a><span class="in">```{r ex_create_string}</span></span>
+<span id="cb107-92"><a href="#cb107-92" aria-label="92"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-93"><a href="#cb107-93" aria-label="93"></a>str <span class="ot">&lt;-</span> <span class="st">"It's Thursday"</span></span>
+<span id="cb107-94"><a href="#cb107-94" aria-label="94"></a></span>
+<span id="cb107-95"><a href="#cb107-95" aria-label="95"></a><span class="fu">str_view</span>(str)</span>
+<span id="cb107-96"><a href="#cb107-96" aria-label="96"></a><span class="in">```</span></span>
+<span id="cb107-97"><a href="#cb107-97" aria-label="97"></a></span>
+<span id="cb107-98"><a href="#cb107-98" aria-label="98"></a></span>
+<span id="cb107-99"><a href="#cb107-99" aria-label="99"></a><span class="fu">### Escape Characters</span></span>
+<span id="cb107-100"><a href="#cb107-100" aria-label="100"></a></span>
+<span id="cb107-101"><a href="#cb107-101" aria-label="101"></a>Because <span class="in">`"`</span> and <span class="in">`'`</span> are special characters in the creation of strings, R offers another way to put them inside a string. We can **escape** these special characters by putting a <span class="in">`\`</span> in front of them:</span>
+<span id="cb107-102"><a href="#cb107-102" aria-label="102"></a></span>
+<span id="cb107-103"><a href="#cb107-103" aria-label="103"></a><span class="in">```{r escape_chars}</span></span>
+<span id="cb107-104"><a href="#cb107-104" aria-label="104"></a>string1 <span class="ot">&lt;-</span> <span class="st">"This is a string with </span><span class="sc">\"</span><span class="st">double quotes</span><span class="sc">\"</span><span class="st">"</span></span>
+<span id="cb107-105"><a href="#cb107-105" aria-label="105"></a>string2 <span class="ot">&lt;-</span> <span class="st">"This is a string with </span><span class="sc">\'</span><span class="st">single quotes</span><span class="sc">\'</span><span class="st">"</span></span>
+<span id="cb107-106"><a href="#cb107-106" aria-label="106"></a><span class="fu">str_view</span>(string1)</span>
+<span id="cb107-107"><a href="#cb107-107" aria-label="107"></a><span class="fu">str_view</span>(string2)</span>
+<span id="cb107-108"><a href="#cb107-108" aria-label="108"></a><span class="in">```</span></span>
+<span id="cb107-109"><a href="#cb107-109" aria-label="109"></a></span>
+<span id="cb107-110"><a href="#cb107-110" aria-label="110"></a>Given that <span class="in">`\`</span> is a special character, how can we put the <span class="in">`\`</span> character in strings? We have to escape it with <span class="in">`\\`</span>.</span>
+<span id="cb107-111"><a href="#cb107-111" aria-label="111"></a></span>
+<span id="cb107-112"><a href="#cb107-112" aria-label="112"></a></span>
+<span id="cb107-113"><a href="#cb107-113" aria-label="113"></a><span class="fu">### ✏️ Escape Backslash</span></span>
+<span id="cb107-114"><a href="#cb107-114" aria-label="114"></a></span>
+<span id="cb107-115"><a href="#cb107-115" aria-label="115"></a>Create the string <span class="in">`C:\Users`</span>. What happens when you don't escape the <span class="in">`\`</span>?</span>
+<span id="cb107-116"><a href="#cb107-116" aria-label="116"></a></span>
+<span id="cb107-117"><a href="#cb107-117" aria-label="117"></a><span class="in">```{r ex_create_string_slash}</span></span>
+<span id="cb107-118"><a href="#cb107-118" aria-label="118"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-119"><a href="#cb107-119" aria-label="119"></a>string <span class="ot">&lt;-</span> <span class="st">"C:</span><span class="sc">\\</span><span class="st">Users"</span></span>
+<span id="cb107-120"><a href="#cb107-120" aria-label="120"></a></span>
+<span id="cb107-121"><a href="#cb107-121" aria-label="121"></a><span class="fu">str_view</span>(string)</span>
+<span id="cb107-122"><a href="#cb107-122" aria-label="122"></a><span class="in">```</span></span>
+<span id="cb107-123"><a href="#cb107-123" aria-label="123"></a></span>
+<span id="cb107-124"><a href="#cb107-124" aria-label="124"></a></span>
+<span id="cb107-125"><a href="#cb107-125" aria-label="125"></a><span class="fu">### Special Characters</span></span>
+<span id="cb107-126"><a href="#cb107-126" aria-label="126"></a></span>
+<span id="cb107-127"><a href="#cb107-127" aria-label="127"></a>Other special characters include:</span>
+<span id="cb107-128"><a href="#cb107-128" aria-label="128"></a></span>
+<span id="cb107-129"><a href="#cb107-129" aria-label="129"></a><span class="ss">- </span><span class="in">`\t`</span> &lt;- creates a tab</span>
+<span id="cb107-130"><a href="#cb107-130" aria-label="130"></a><span class="ss">- </span><span class="in">`\n`</span> &lt;- creates a newline</span>
+<span id="cb107-131"><a href="#cb107-131" aria-label="131"></a></span>
+<span id="cb107-132"><a href="#cb107-132" aria-label="132"></a>Both can be useful in plots to more neatly arrange text.</span>
+<span id="cb107-133"><a href="#cb107-133" aria-label="133"></a></span>
+<span id="cb107-134"><a href="#cb107-134" aria-label="134"></a><span class="in">```{r escape_tab_newline}</span></span>
+<span id="cb107-135"><a href="#cb107-135" aria-label="135"></a>string1 <span class="ot">&lt;-</span> <span class="st">"Record temp:</span><span class="sc">\t</span><span class="st">102"</span></span>
+<span id="cb107-136"><a href="#cb107-136" aria-label="136"></a>string2 <span class="ot">&lt;-</span> <span class="st">"Record temp:</span><span class="sc">\n</span><span class="st">102"</span></span>
+<span id="cb107-137"><a href="#cb107-137" aria-label="137"></a></span>
+<span id="cb107-138"><a href="#cb107-138" aria-label="138"></a><span class="fu">str_view</span>(string1)</span>
+<span id="cb107-139"><a href="#cb107-139" aria-label="139"></a><span class="fu">str_view</span>(string2)</span>
+<span id="cb107-140"><a href="#cb107-140" aria-label="140"></a><span class="in">```</span></span>
+<span id="cb107-141"><a href="#cb107-141" aria-label="141"></a></span>
+<span id="cb107-142"><a href="#cb107-142" aria-label="142"></a>Can we get <span class="in">`str_view()`</span> to show the tab instead of <span class="in">`{\t}`</span>? We can use the <span class="in">`html`</span> argument to have the string displayed as if on a webpage:</span>
+<span id="cb107-143"><a href="#cb107-143" aria-label="143"></a></span>
+<span id="cb107-144"><a href="#cb107-144" aria-label="144"></a><span class="in">```{r str_view_html}</span></span>
+<span id="cb107-145"><a href="#cb107-145" aria-label="145"></a><span class="fu">str_view</span>(string1, <span class="at">html =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb107-146"><a href="#cb107-146" aria-label="146"></a><span class="in">```</span></span>
+<span id="cb107-147"><a href="#cb107-147" aria-label="147"></a></span>
+<span id="cb107-148"><a href="#cb107-148" aria-label="148"></a></span>
+<span id="cb107-149"><a href="#cb107-149" aria-label="149"></a><span class="fu">### Combine</span></span>
+<span id="cb107-150"><a href="#cb107-150" aria-label="150"></a></span>
+<span id="cb107-151"><a href="#cb107-151" aria-label="151"></a>Often we will want to create new strings within data frames. We can use <span class="in">`str_c()`</span> or <span class="in">`str_glue()`</span>, both of which are vectorized functions, ie, they take vectors as inputs and provide vectors as outputs which means that they can be used within <span class="in">`mutate()`</span></span>
+<span id="cb107-152"><a href="#cb107-152" aria-label="152"></a></span>
+<span id="cb107-153"><a href="#cb107-153" aria-label="153"></a><span class="ss">- </span>With <span class="in">`str_c()`</span> the strings to be combined are all arguments separated by commas.</span>
+<span id="cb107-154"><a href="#cb107-154" aria-label="154"></a><span class="ss">- </span>With <span class="in">`str_glue()`</span> the desired string is written as a template with variable names inside curly braces <span class="in">`{}`</span>.</span>
+<span id="cb107-155"><a href="#cb107-155" aria-label="155"></a></span>
+<span id="cb107-156"><a href="#cb107-156" aria-label="156"></a><span class="in">```{r str_c_glue}</span></span>
+<span id="cb107-157"><a href="#cb107-157" aria-label="157"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb107-158"><a href="#cb107-158" aria-label="158"></a>    <span class="at">first_name =</span> <span class="fu">c</span>(<span class="st">"Arya"</span>, <span class="st">"Olenna"</span>, <span class="st">"Tyrion"</span>, <span class="st">"Melisandre"</span>),</span>
+<span id="cb107-159"><a href="#cb107-159" aria-label="159"></a>    <span class="at">last_name =</span> <span class="fu">c</span>(<span class="st">"Stark"</span>, <span class="st">"Tyrell"</span>, <span class="st">"Lannister"</span>, <span class="cn">NA</span>)</span>
+<span id="cb107-160"><a href="#cb107-160" aria-label="160"></a>)</span>
+<span id="cb107-161"><a href="#cb107-161" aria-label="161"></a>df</span>
+<span id="cb107-162"><a href="#cb107-162" aria-label="162"></a><span class="in">```</span></span>
+<span id="cb107-163"><a href="#cb107-163" aria-label="163"></a></span>
+<span id="cb107-166"><a href="#cb107-166" aria-label="164"></a><span class="in">```{r}</span></span>
+<span id="cb107-167"><a href="#cb107-167" aria-label="165"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb107-168"><a href="#cb107-168" aria-label="166"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb107-169"><a href="#cb107-169" aria-label="167"></a>        <span class="at">full_name1 =</span> <span class="fu">str_c</span>(first_name, <span class="st">" "</span>, last_name),</span>
+<span id="cb107-170"><a href="#cb107-170" aria-label="168"></a>        <span class="at">full_name2 =</span> <span class="fu">str_glue</span>(<span class="st">"{first_name} {last_name}"</span>)</span>
+<span id="cb107-171"><a href="#cb107-171" aria-label="169"></a>    )</span>
+<span id="cb107-172"><a href="#cb107-172" aria-label="170"></a><span class="in">```</span></span>
+<span id="cb107-173"><a href="#cb107-173" aria-label="171"></a></span>
+<span id="cb107-174"><a href="#cb107-174" aria-label="172"></a><span class="fu">### ✏️ Build Date Strings</span></span>
+<span id="cb107-175"><a href="#cb107-175" aria-label="173"></a></span>
+<span id="cb107-176"><a href="#cb107-176" aria-label="174"></a>In the following data frame, create a full date string in month-day-year format using both <span class="in">`str_c()`</span> and <span class="in">`str_glue()`</span>.</span>
+<span id="cb107-177"><a href="#cb107-177" aria-label="175"></a></span>
+<span id="cb107-178"><a href="#cb107-178" aria-label="176"></a><span class="in">```{r ex_str_c_glue}</span></span>
+<span id="cb107-179"><a href="#cb107-179" aria-label="177"></a>df_dates <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb107-180"><a href="#cb107-180" aria-label="178"></a>    <span class="at">year =</span> <span class="dv">2000</span><span class="sc">:</span><span class="dv">2002</span>,</span>
+<span id="cb107-181"><a href="#cb107-181" aria-label="179"></a>    <span class="at">month =</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>),</span>
+<span id="cb107-182"><a href="#cb107-182" aria-label="180"></a>    <span class="at">day =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb107-183"><a href="#cb107-183" aria-label="181"></a>)</span>
+<span id="cb107-184"><a href="#cb107-184" aria-label="182"></a>df_dates</span>
+<span id="cb107-185"><a href="#cb107-185" aria-label="183"></a><span class="in">```</span></span>
+<span id="cb107-186"><a href="#cb107-186" aria-label="184"></a></span>
+<span id="cb107-189"><a href="#cb107-189" aria-label="185"></a><span class="in">```{r}</span></span>
+<span id="cb107-190"><a href="#cb107-190" aria-label="186"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-191"><a href="#cb107-191" aria-label="187"></a>df_dates <span class="sc">|&gt;</span></span>
+<span id="cb107-192"><a href="#cb107-192" aria-label="188"></a>  <span class="fu">mutate</span>(<span class="at">date1=</span> <span class="fu">str_c</span>(month,<span class="st">"-"</span>, day, <span class="st">"-"</span>, year),</span>
+<span id="cb107-193"><a href="#cb107-193" aria-label="189"></a>         <span class="at">date2=</span> <span class="fu">str_glue</span>(<span class="st">"{month}-{day}-{year}"</span>))</span>
+<span id="cb107-194"><a href="#cb107-194" aria-label="190"></a><span class="in">```</span></span>
+<span id="cb107-195"><a href="#cb107-195" aria-label="191"></a></span>
+<span id="cb107-196"><a href="#cb107-196" aria-label="192"></a></span>
+<span id="cb107-197"><a href="#cb107-197" aria-label="193"></a><span class="fu">### Length</span></span>
+<span id="cb107-198"><a href="#cb107-198" aria-label="194"></a></span>
+<span id="cb107-199"><a href="#cb107-199" aria-label="195"></a>The <span class="in">`str_length()`</span> counts the number of characters in a string.</span>
+<span id="cb107-200"><a href="#cb107-200" aria-label="196"></a></span>
+<span id="cb107-201"><a href="#cb107-201" aria-label="197"></a><span class="in">```{r str_length}</span></span>
+<span id="cb107-202"><a href="#cb107-202" aria-label="198"></a>comments <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb107-203"><a href="#cb107-203" aria-label="199"></a>    <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>),</span>
+<span id="cb107-204"><a href="#cb107-204" aria-label="200"></a>    <span class="at">comment =</span> <span class="fu">c</span>(<span class="st">"The essay was well organized around the core message and had good transitions."</span>, <span class="st">"Good job!"</span>)</span>
+<span id="cb107-205"><a href="#cb107-205" aria-label="201"></a>)</span>
+<span id="cb107-206"><a href="#cb107-206" aria-label="202"></a>comments</span>
+<span id="cb107-207"><a href="#cb107-207" aria-label="203"></a><span class="in">```</span></span>
+<span id="cb107-208"><a href="#cb107-208" aria-label="204"></a></span>
+<span id="cb107-211"><a href="#cb107-211" aria-label="205"></a><span class="in">```{r}</span></span>
+<span id="cb107-212"><a href="#cb107-212" aria-label="206"></a>comments <span class="sc">|&gt;</span></span>
+<span id="cb107-213"><a href="#cb107-213" aria-label="207"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb107-214"><a href="#cb107-214" aria-label="208"></a>        <span class="at">comment_length =</span> <span class="fu">str_length</span>(comment)</span>
+<span id="cb107-215"><a href="#cb107-215" aria-label="209"></a>    )</span>
+<span id="cb107-216"><a href="#cb107-216" aria-label="210"></a><span class="in">```</span></span>
+<span id="cb107-217"><a href="#cb107-217" aria-label="211"></a></span>
+<span id="cb107-218"><a href="#cb107-218" aria-label="212"></a><span class="fu">### Substring</span></span>
+<span id="cb107-219"><a href="#cb107-219" aria-label="213"></a></span>
+<span id="cb107-220"><a href="#cb107-220" aria-label="214"></a>The <span class="in">`str_sub()`</span> function gets a substring of a string. The 2nd and 3rd arguments indicate the beginning and ending position to extract.</span>
+<span id="cb107-221"><a href="#cb107-221" aria-label="215"></a></span>
+<span id="cb107-222"><a href="#cb107-222" aria-label="216"></a><span class="ss">- </span>Negative positions indicate the position from the end of the word, eg, -3 indicates "3rd letter from the end"</span>
+<span id="cb107-223"><a href="#cb107-223" aria-label="217"></a><span class="ss">- </span>Specifying a position that goes beyond the word won't result in an error. <span class="in">`str_sub()`</span> will just go as far as possible.</span>
+<span id="cb107-224"><a href="#cb107-224" aria-label="218"></a></span>
+<span id="cb107-225"><a href="#cb107-225" aria-label="219"></a><span class="in">```{r str_sub}</span></span>
+<span id="cb107-226"><a href="#cb107-226" aria-label="220"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Apple"</span>, <span class="st">"Banana"</span>, <span class="st">"Pear"</span>)</span>
+<span id="cb107-227"><a href="#cb107-227" aria-label="221"></a>x</span>
+<span id="cb107-228"><a href="#cb107-228" aria-label="222"></a><span class="in">```</span></span>
+<span id="cb107-229"><a href="#cb107-229" aria-label="223"></a></span>
+<span id="cb107-232"><a href="#cb107-232" aria-label="224"></a><span class="in">```{r}</span></span>
+<span id="cb107-233"><a href="#cb107-233" aria-label="225"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">3</span>)</span>
+<span id="cb107-234"><a href="#cb107-234" aria-label="226"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb107-235"><a href="#cb107-235" aria-label="227"></a><span class="fu">str_sub</span>(x, <span class="at">start =</span> <span class="dv">2</span>, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb107-236"><a href="#cb107-236" aria-label="228"></a><span class="fu">str_sub</span>(<span class="st">"a"</span>, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">15</span>)</span>
+<span id="cb107-237"><a href="#cb107-237" aria-label="229"></a><span class="in">```</span></span>
+<span id="cb107-238"><a href="#cb107-238" aria-label="230"></a></span>
+<span id="cb107-239"><a href="#cb107-239" aria-label="231"></a><span class="fu">### ✏️ Find Middle Letter</span></span>
+<span id="cb107-240"><a href="#cb107-240" aria-label="232"></a></span>
+<span id="cb107-241"><a href="#cb107-241" aria-label="233"></a>Using <span class="in">`str_sub()`</span>, create a new variable with only the middle letter of each word in the data frame below. (Challenge: How would you handle words with an even number of letters?)</span>
+<span id="cb107-242"><a href="#cb107-242" aria-label="234"></a></span>
+<span id="cb107-243"><a href="#cb107-243" aria-label="235"></a><span class="in">```{r ex_str_sub}</span></span>
+<span id="cb107-244"><a href="#cb107-244" aria-label="236"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb107-245"><a href="#cb107-245" aria-label="237"></a>    <span class="at">word_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb107-246"><a href="#cb107-246" aria-label="238"></a>    <span class="at">word =</span> <span class="fu">c</span>(<span class="st">"replace"</span>, <span class="st">"match"</span>, <span class="st">"pattern"</span>)</span>
+<span id="cb107-247"><a href="#cb107-247" aria-label="239"></a>)</span>
+<span id="cb107-248"><a href="#cb107-248" aria-label="240"></a>df</span>
+<span id="cb107-249"><a href="#cb107-249" aria-label="241"></a><span class="in">```</span></span>
+<span id="cb107-250"><a href="#cb107-250" aria-label="242"></a></span>
+<span id="cb107-253"><a href="#cb107-253" aria-label="243"></a><span class="in">```{r}</span></span>
+<span id="cb107-254"><a href="#cb107-254" aria-label="244"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-255"><a href="#cb107-255" aria-label="245"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb107-256"><a href="#cb107-256" aria-label="246"></a>  <span class="fu">mutate</span>(<span class="at">word_length =</span> <span class="fu">str_length</span>(word),</span>
+<span id="cb107-257"><a href="#cb107-257" aria-label="247"></a>        <span class="at">middle_pos =</span> <span class="fu">ceiling</span>(word_length<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb107-258"><a href="#cb107-258" aria-label="248"></a>        <span class="at">middle_letter =</span> <span class="fu">str_sub</span>(word, middle_pos, middle_pos))</span>
+<span id="cb107-259"><a href="#cb107-259" aria-label="249"></a><span class="in">```</span></span>
+<span id="cb107-260"><a href="#cb107-260" aria-label="250"></a></span>
+<span id="cb107-261"><a href="#cb107-261" aria-label="251"></a></span>
+<span id="cb107-262"><a href="#cb107-262" aria-label="252"></a><span class="fu">## Patterns</span></span>
+<span id="cb107-263"><a href="#cb107-263" aria-label="253"></a></span>
+<span id="cb107-264"><a href="#cb107-264" aria-label="254"></a>Suppose that you're exploring text data looking for places where people describe happiness. There are many ways to search. We could search for the word "happy" but that excludes "happiness" so we might search for "happi".</span>
+<span id="cb107-265"><a href="#cb107-265" aria-label="255"></a></span>
+<span id="cb107-266"><a href="#cb107-266" aria-label="256"></a>**Regular expressions** (regex) are a powerful language for describing patterns within strings.</span>
+<span id="cb107-267"><a href="#cb107-267" aria-label="257"></a></span>
+<span id="cb107-268"><a href="#cb107-268" aria-label="258"></a><span class="in">```{r load_regex_data}</span></span>
+<span id="cb107-269"><a href="#cb107-269" aria-label="259"></a><span class="co"># load few datasets</span></span>
+<span id="cb107-270"><a href="#cb107-270" aria-label="260"></a><span class="fu">data</span>(fruit)</span>
+<span id="cb107-271"><a href="#cb107-271" aria-label="261"></a><span class="fu">sample</span>(fruit, <span class="dv">10</span>)</span>
+<span id="cb107-272"><a href="#cb107-272" aria-label="262"></a><span class="in">```</span></span>
+<span id="cb107-273"><a href="#cb107-273" aria-label="263"></a></span>
+<span id="cb107-276"><a href="#cb107-276" aria-label="264"></a><span class="in">```{r}</span></span>
+<span id="cb107-277"><a href="#cb107-277" aria-label="265"></a><span class="fu">data</span>(words)</span>
+<span id="cb107-278"><a href="#cb107-278" aria-label="266"></a><span class="fu">sample</span>(words, <span class="dv">10</span>)</span>
+<span id="cb107-279"><a href="#cb107-279" aria-label="267"></a><span class="in">```</span></span>
+<span id="cb107-280"><a href="#cb107-280" aria-label="268"></a></span>
+<span id="cb107-283"><a href="#cb107-283" aria-label="269"></a><span class="in">```{r}</span></span>
+<span id="cb107-284"><a href="#cb107-284" aria-label="270"></a><span class="fu">data</span>(sentences)</span>
+<span id="cb107-285"><a href="#cb107-285" aria-label="271"></a><span class="fu">sample</span>(sentences, <span class="dv">10</span>)</span>
+<span id="cb107-286"><a href="#cb107-286" aria-label="272"></a><span class="in">```</span></span>
+<span id="cb107-287"><a href="#cb107-287" aria-label="273"></a></span>
+<span id="cb107-288"><a href="#cb107-288" aria-label="274"></a>We can use <span class="in">`str_view()`</span> with the <span class="in">`pattern`</span> argument to see what parts of a string match the regex supplied in the <span class="in">`pattern`</span> argument. (Matches are enclosed in <span class="in">`&lt;&gt;`</span>.)</span>
+<span id="cb107-289"><a href="#cb107-289" aria-label="275"></a></span>
+<span id="cb107-290"><a href="#cb107-290" aria-label="276"></a><span class="in">```{r str_view_pattern}</span></span>
+<span id="cb107-291"><a href="#cb107-291" aria-label="277"></a><span class="fu">str_view</span>(fruit, <span class="st">"berry"</span>)</span>
+<span id="cb107-292"><a href="#cb107-292" aria-label="278"></a><span class="in">```</span></span>
+<span id="cb107-293"><a href="#cb107-293" aria-label="279"></a></span>
+<span id="cb107-294"><a href="#cb107-294" aria-label="280"></a></span>
+<span id="cb107-295"><a href="#cb107-295" aria-label="281"></a><span class="fu">### Quantifiers</span></span>
+<span id="cb107-296"><a href="#cb107-296" aria-label="282"></a></span>
+<span id="cb107-297"><a href="#cb107-297" aria-label="283"></a><span class="ss">- </span>Letters and numbers in a regex are matched exactly and are called **literal characters**.</span>
+<span id="cb107-298"><a href="#cb107-298" aria-label="284"></a><span class="ss">- </span>Most punctuation characters, like <span class="in">`.`</span>, <span class="in">`+`</span>, <span class="in">`*`</span>, <span class="in">`[`</span>, <span class="in">`]`</span>, and <span class="in">`?`</span>, have special meanings and are called **metacharacters**.</span>
+<span id="cb107-299"><a href="#cb107-299" aria-label="285"></a><span class="ss">- </span>**Quantifiers** are metacharacters that specify how many times the proceeding character (group or character class) must occurs for a match to be found:</span>
+<span id="cb107-300"><a href="#cb107-300" aria-label="286"></a><span class="ss">    - </span><span class="in">`?`</span>: the proceeding character must occurs 0 or 1 times for a match to be found</span>
+<span id="cb107-301"><a href="#cb107-301" aria-label="287"></a><span class="ss">    - </span><span class="in">`+`</span>: the proceeding character must occurs 1+ (1 or more times) for a match to be found</span>
+<span id="cb107-302"><a href="#cb107-302" aria-label="288"></a><span class="ss">    - </span><span class="in">`*`</span>: the proceeding character must occurs 0+ (0 or more times) for a match to be found</span>
+<span id="cb107-303"><a href="#cb107-303" aria-label="289"></a></span>
+<span id="cb107-304"><a href="#cb107-304" aria-label="290"></a></span>
+<span id="cb107-305"><a href="#cb107-305" aria-label="291"></a><span class="fu">### ✏️ Predict Quantifier Matches</span></span>
+<span id="cb107-306"><a href="#cb107-306" aria-label="292"></a></span>
+<span id="cb107-307"><a href="#cb107-307" aria-label="293"></a>Before running the code below, predict what matches will be made. Run the code to check your guesses. Note that in all regex's below the <span class="in">`?`</span>, <span class="in">`+`</span>, <span class="in">`*`</span> applies to the <span class="in">`b`</span> only (not the <span class="in">`a`</span>).</span>
+<span id="cb107-308"><a href="#cb107-308" aria-label="294"></a></span>
+<span id="cb107-309"><a href="#cb107-309" aria-label="295"></a><span class="in">```{r ex_regex_quantifiers}</span></span>
+<span id="cb107-310"><a href="#cb107-310" aria-label="296"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab?"</span>)</span>
+<span id="cb107-311"><a href="#cb107-311" aria-label="297"></a><span class="in">```</span></span>
+<span id="cb107-312"><a href="#cb107-312" aria-label="298"></a></span>
+<span id="cb107-315"><a href="#cb107-315" aria-label="299"></a><span class="in">```{r}</span></span>
+<span id="cb107-316"><a href="#cb107-316" aria-label="300"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab+"</span>)</span>
+<span id="cb107-317"><a href="#cb107-317" aria-label="301"></a><span class="in">```</span></span>
+<span id="cb107-318"><a href="#cb107-318" aria-label="302"></a></span>
+<span id="cb107-321"><a href="#cb107-321" aria-label="303"></a><span class="in">```{r}</span></span>
+<span id="cb107-322"><a href="#cb107-322" aria-label="304"></a><span class="fu">str_view</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"ab"</span>, <span class="st">"abb"</span>), <span class="st">"ab*"</span>)</span>
+<span id="cb107-323"><a href="#cb107-323" aria-label="305"></a><span class="in">```</span></span>
+<span id="cb107-324"><a href="#cb107-324" aria-label="306"></a></span>
+<span id="cb107-325"><a href="#cb107-325" aria-label="307"></a><span class="fu">### Character Classes</span></span>
+<span id="cb107-326"><a href="#cb107-326" aria-label="308"></a></span>
+<span id="cb107-327"><a href="#cb107-327" aria-label="309"></a><span class="ss">- </span>We can match any of a set of characters with <span class="in">`[]`</span> (called a **character class**), e.g., <span class="in">`[abcd]`</span> matches "a", "b", "c", or "d".</span>
+<span id="cb107-328"><a href="#cb107-328" aria-label="310"></a><span class="ss">- </span>We can invert the match by starting with <span class="in">`^`</span>: <span class="in">`[^abcd]`</span> matches anything except "a", "b", "c", or "d".</span>
+<span id="cb107-329"><a href="#cb107-329" aria-label="311"></a></span>
+<span id="cb107-330"><a href="#cb107-330" aria-label="312"></a><span class="in">```{r regex_classes}</span></span>
+<span id="cb107-331"><a href="#cb107-331" aria-label="313"></a><span class="co"># Match words that have vowel-x-vowel</span></span>
+<span id="cb107-332"><a href="#cb107-332" aria-label="314"></a><span class="fu">str_view</span>(words, <span class="st">"[aeiou]x[aeiou]"</span>)</span>
+<span id="cb107-333"><a href="#cb107-333" aria-label="315"></a></span>
+<span id="cb107-334"><a href="#cb107-334" aria-label="316"></a><span class="co"># Match words that have not_vowel-y-not_vowel</span></span>
+<span id="cb107-335"><a href="#cb107-335" aria-label="317"></a><span class="fu">str_view</span>(words, <span class="st">"[^aeiou]y[^aeiou]"</span>)</span>
+<span id="cb107-336"><a href="#cb107-336" aria-label="318"></a><span class="in">```</span></span>
+<span id="cb107-337"><a href="#cb107-337" aria-label="319"></a></span>
+<span id="cb107-338"><a href="#cb107-338" aria-label="320"></a></span>
+<span id="cb107-339"><a href="#cb107-339" aria-label="321"></a><span class="fu">### ✏️ Find Vowel Pairs</span></span>
+<span id="cb107-340"><a href="#cb107-340" aria-label="322"></a></span>
+<span id="cb107-341"><a href="#cb107-341" aria-label="323"></a>Using the <span class="in">`words`</span> dataset, find words that have two vowels in a row followed by an "m".</span>
+<span id="cb107-342"><a href="#cb107-342" aria-label="324"></a></span>
+<span id="cb107-343"><a href="#cb107-343" aria-label="325"></a><span class="in">```{r ex_regex_classes}</span></span>
+<span id="cb107-344"><a href="#cb107-344" aria-label="326"></a><span class="fu">str_view</span>(words, <span class="st">"[aeiou][aeiou]m"</span>)</span>
+<span id="cb107-345"><a href="#cb107-345" aria-label="327"></a><span class="in">```</span></span>
+<span id="cb107-346"><a href="#cb107-346" aria-label="328"></a></span>
+<span id="cb107-347"><a href="#cb107-347" aria-label="329"></a></span>
+<span id="cb107-348"><a href="#cb107-348" aria-label="330"></a><span class="fu">### Alternation</span></span>
+<span id="cb107-349"><a href="#cb107-349" aria-label="331"></a></span>
+<span id="cb107-350"><a href="#cb107-350" aria-label="332"></a><span class="ss">- </span>The **alternation** operator <span class="in">`|`</span> can be read just like the logical operator <span class="in">`|`</span> ("OR") to pick between one or more alternative patterns, eg, <span class="in">`apple|banana`</span> searches for "apple" or "banana".</span>
+<span id="cb107-351"><a href="#cb107-351" aria-label="333"></a></span>
+<span id="cb107-352"><a href="#cb107-352" aria-label="334"></a><span class="in">```{r regex_alternation}</span></span>
+<span id="cb107-353"><a href="#cb107-353" aria-label="335"></a><span class="fu">str_view</span>(fruit, <span class="st">"apple|melon|nut"</span>)</span>
+<span id="cb107-354"><a href="#cb107-354" aria-label="336"></a><span class="in">```</span></span>
+<span id="cb107-355"><a href="#cb107-355" aria-label="337"></a></span>
+<span id="cb107-356"><a href="#cb107-356" aria-label="338"></a></span>
+<span id="cb107-357"><a href="#cb107-357" aria-label="339"></a><span class="fu">### ✏️ Find Repeated Vowels</span></span>
+<span id="cb107-358"><a href="#cb107-358" aria-label="340"></a></span>
+<span id="cb107-359"><a href="#cb107-359" aria-label="341"></a>Using the <span class="in">`fruit`</span> dataset, find fruits that have a repeated vowel ("aa", "ee", "ii", "oo", or "uu".)</span>
+<span id="cb107-360"><a href="#cb107-360" aria-label="342"></a></span>
+<span id="cb107-361"><a href="#cb107-361" aria-label="343"></a><span class="in">```{r ex_regex_alternation}</span></span>
+<span id="cb107-362"><a href="#cb107-362" aria-label="344"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-363"><a href="#cb107-363" aria-label="345"></a><span class="fu">str_view</span>(fruit, <span class="st">"aa|ee|ii|oo|uu"</span>)</span>
+<span id="cb107-364"><a href="#cb107-364" aria-label="346"></a><span class="in">```</span></span>
+<span id="cb107-365"><a href="#cb107-365" aria-label="347"></a></span>
+<span id="cb107-366"><a href="#cb107-366" aria-label="348"></a></span>
+<span id="cb107-367"><a href="#cb107-367" aria-label="349"></a><span class="fu">### Anchors &amp; Groups</span></span>
+<span id="cb107-368"><a href="#cb107-368" aria-label="350"></a></span>
+<span id="cb107-369"><a href="#cb107-369" aria-label="351"></a><span class="ss">- </span>The <span class="in">`^`</span> operator indicates the beginning of a string, and the <span class="in">`$`</span> operator indicates the end of a string, eg, <span class="in">`^a`</span> matches strings that start with "a", and <span class="in">`a$`</span> matches words that end with "a".</span>
+<span id="cb107-370"><a href="#cb107-370" aria-label="352"></a><span class="ss">- </span>Parentheses group together parts of a regular expression that should be taken as a bundle. Much like parentheses in arithmetic statements, eg, <span class="in">`ab+`</span> is a little confusing. Does it match "ab" one or more times? Or does it match "a" first, then just "b" one or more times? (The latter, as we saw in an earlier example.) We can be very explicit and use <span class="in">`a(b)+`</span>.</span>
+<span id="cb107-371"><a href="#cb107-371" aria-label="353"></a></span>
+<span id="cb107-372"><a href="#cb107-372" aria-label="354"></a></span>
+<span id="cb107-373"><a href="#cb107-373" aria-label="355"></a><span class="fu">### ✏️ Find Words with y</span></span>
+<span id="cb107-374"><a href="#cb107-374" aria-label="356"></a></span>
+<span id="cb107-375"><a href="#cb107-375" aria-label="357"></a>Using the <span class="in">`words`</span> dataset, find words that start with "y"</span>
+<span id="cb107-376"><a href="#cb107-376" aria-label="358"></a></span>
+<span id="cb107-377"><a href="#cb107-377" aria-label="359"></a><span class="in">```{r ex_regex_start_end_group}</span></span>
+<span id="cb107-378"><a href="#cb107-378" aria-label="360"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-379"><a href="#cb107-379" aria-label="361"></a></span>
+<span id="cb107-380"><a href="#cb107-380" aria-label="362"></a><span class="in">```</span></span>
+<span id="cb107-381"><a href="#cb107-381" aria-label="363"></a></span>
+<span id="cb107-382"><a href="#cb107-382" aria-label="364"></a>Using the <span class="in">`words`</span> dataset again, find words that don't start with "y".</span>
+<span id="cb107-383"><a href="#cb107-383" aria-label="365"></a></span>
+<span id="cb107-384"><a href="#cb107-384" aria-label="366"></a><span class="in">```{r ex_regex_start_end_group_2}</span></span>
+<span id="cb107-385"><a href="#cb107-385" aria-label="367"></a><span class="co"># write your answer below</span></span>
+<span id="cb107-386"><a href="#cb107-386" aria-label="368"></a><span class="fu">str_view</span>(words, <span class="st">"^y"</span>)</span>
+<span id="cb107-387"><a href="#cb107-387" aria-label="369"></a><span class="in">```</span></span>
+<span id="cb107-388"><a href="#cb107-388" aria-label="370"></a></span>
+<span id="cb107-389"><a href="#cb107-389" aria-label="371"></a></span>
+<span id="cb107-390"><a href="#cb107-390" aria-label="372"></a><span class="fu">## Dear Abby Letters</span></span>
+<span id="cb107-391"><a href="#cb107-391" aria-label="373"></a></span>
+<span id="cb107-392"><a href="#cb107-392" aria-label="374"></a><span class="fu">### Load the Letters</span></span>
+<span id="cb107-393"><a href="#cb107-393" aria-label="375"></a></span>
+<span id="cb107-394"><a href="#cb107-394" aria-label="376"></a>Read in the "Dear Abby" data underlying The Pudding's <span class="co">[</span><span class="ot">30 Years of American Anxieties</span><span class="co">](https://pudding.cool/2018/11/dearabby/)</span> article.</span>
+<span id="cb107-395"><a href="#cb107-395" aria-label="377"></a></span>
+<span id="cb107-396"><a href="#cb107-396" aria-label="378"></a><span class="in">```{r read_dear_abby}</span></span>
+<span id="cb107-397"><a href="#cb107-397" aria-label="379"></a>posts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/the-pudding/data/master/dearabby/raw_da_qs.csv"</span>)</span>
+<span id="cb107-398"><a href="#cb107-398" aria-label="380"></a><span class="fu">str</span>(posts)</span>
+<span id="cb107-399"><a href="#cb107-399" aria-label="381"></a><span class="in">```</span></span>
+<span id="cb107-400"><a href="#cb107-400" aria-label="382"></a></span>
+<span id="cb107-401"><a href="#cb107-401" aria-label="383"></a>Take a couple minutes to scroll through the <span class="co">[</span><span class="ot">30 Years of American Anxieties</span><span class="co">](https://pudding.cool/2018/11/dearabby/)</span> article to get ideas for themes that you might want to search for using regular expressions.</span>
+<span id="cb107-402"><a href="#cb107-402" aria-label="384"></a></span>
+<span id="cb107-403"><a href="#cb107-403" aria-label="385"></a><span class="fu">### Regex Functions</span></span>
+<span id="cb107-404"><a href="#cb107-404" aria-label="386"></a></span>
+<span id="cb107-405"><a href="#cb107-405" aria-label="387"></a>The following are core <span class="in">`stringr`</span> functions that use regular expressions:</span>
+<span id="cb107-406"><a href="#cb107-406" aria-label="388"></a></span>
+<span id="cb107-407"><a href="#cb107-407" aria-label="389"></a><span class="ss">- </span><span class="in">`str_view()`</span> - View the first occurrence in a string that matches the regex</span>
+<span id="cb107-408"><a href="#cb107-408" aria-label="390"></a><span class="ss">- </span><span class="in">`str_count()`</span> - Count the number of times a regex matches within a string</span>
+<span id="cb107-409"><a href="#cb107-409" aria-label="391"></a><span class="ss">- </span><span class="in">`str_detect()`</span> - Determine if (TRUE/FALSE) the regex is found within string</span>
+<span id="cb107-410"><a href="#cb107-410" aria-label="392"></a><span class="ss">- </span><span class="in">`str_subset()`</span> - Return subset of strings that match the regex</span>
+<span id="cb107-411"><a href="#cb107-411" aria-label="393"></a><span class="ss">- </span><span class="in">`str_extract(), str_extract_all()`</span> - Return portion of each string that matches the regex. <span class="in">`str_extract()`</span> extracts the first instance of the match. <span class="in">`str_extract_all()`</span> extracts all matches.</span>
+<span id="cb107-412"><a href="#cb107-412" aria-label="394"></a><span class="ss">- </span><span class="in">`str_replace(), str_replace_all()`</span> - Replace portion of string that matches the regex with something else. <span class="in">`str_replace()`</span> replaces the first instance of the match. <span class="in">`str_replace_all()`</span> replaces all instances of the match.</span>
+<span id="cb107-413"><a href="#cb107-413" aria-label="395"></a><span class="ss">- </span><span class="in">`str_remove(), str_remove_all()`</span> - Removes the portion of the string that matches the pattern. Equivalent to <span class="in">`str_replace(x, "THE REGEX PATTERN", "")`</span></span>
+<span id="cb107-414"><a href="#cb107-414" aria-label="396"></a></span>
+<span id="cb107-415"><a href="#cb107-415" aria-label="397"></a></span>
+<span id="cb107-416"><a href="#cb107-416" aria-label="398"></a><span class="fu">### ✏️ Search for Themes</span></span>
+<span id="cb107-417"><a href="#cb107-417" aria-label="399"></a></span>
+<span id="cb107-418"><a href="#cb107-418" aria-label="400"></a>Pick a theme from the article and use each of the functions above, starting with <span class="in">`str_count()`</span>, to search for it in the <span class="in">`posts`</span> data. Pull up each function's documentation page and read through the arguments as you go.</span>
+<span id="cb107-419"><a href="#cb107-419" aria-label="401"></a></span>
+<span id="cb107-422"><a href="#cb107-422" aria-label="402"></a><span class="in">```{r}</span></span>
+<span id="cb107-423"><a href="#cb107-423" aria-label="403"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-424"><a href="#cb107-424" aria-label="404"></a>  <span class="fu">mutate</span>(<span class="at">marriage_count =</span> <span class="fu">str_count</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-425"><a href="#cb107-425" aria-label="405"></a>  <span class="fu">summarize</span>(<span class="at">total_mentions =</span> <span class="fu">sum</span>(marriage_count))</span>
+<span id="cb107-426"><a href="#cb107-426" aria-label="406"></a><span class="in">```</span></span>
+<span id="cb107-427"><a href="#cb107-427" aria-label="407"></a></span>
+<span id="cb107-430"><a href="#cb107-430" aria-label="408"></a><span class="in">```{r}</span></span>
+<span id="cb107-431"><a href="#cb107-431" aria-label="409"></a><span class="fu">str_view</span>(posts<span class="sc">$</span>question[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>],</span>
+<span id="cb107-432"><a href="#cb107-432" aria-label="410"></a>  <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb107-433"><a href="#cb107-433" aria-label="411"></a></span>
+<span id="cb107-434"><a href="#cb107-434" aria-label="412"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-435"><a href="#cb107-435" aria-label="413"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-436"><a href="#cb107-436" aria-label="414"></a>  <span class="fu">select</span>(year, question_only)</span>
+<span id="cb107-437"><a href="#cb107-437" aria-label="415"></a><span class="in">```</span></span>
+<span id="cb107-438"><a href="#cb107-438" aria-label="416"></a></span>
+<span id="cb107-441"><a href="#cb107-441" aria-label="417"></a><span class="in">```{r}</span></span>
+<span id="cb107-442"><a href="#cb107-442" aria-label="418"></a><span class="fu">str_subset</span>(posts<span class="sc">$</span>question,</span>
+<span id="cb107-443"><a href="#cb107-443" aria-label="419"></a>  <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb107-444"><a href="#cb107-444" aria-label="420"></a></span>
+<span id="cb107-445"><a href="#cb107-445" aria-label="421"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-446"><a href="#cb107-446" aria-label="422"></a>  <span class="fu">mutate</span>(<span class="at">first_match =</span> <span class="fu">str_extract</span>(question_only, <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-447"><a href="#cb107-447" aria-label="423"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(first_match)) <span class="sc">|&gt;</span></span>
+<span id="cb107-448"><a href="#cb107-448" aria-label="424"></a>  <span class="fu">select</span>(year, first_match, question_only)</span>
+<span id="cb107-449"><a href="#cb107-449" aria-label="425"></a><span class="in">```</span></span>
+<span id="cb107-450"><a href="#cb107-450" aria-label="426"></a></span>
+<span id="cb107-453"><a href="#cb107-453" aria-label="427"></a><span class="in">```{r}</span></span>
+<span id="cb107-454"><a href="#cb107-454" aria-label="428"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-455"><a href="#cb107-455" aria-label="429"></a>  <span class="fu">mutate</span>(<span class="at">all_matches =</span> <span class="fu">str_extract_all</span>(question_only,</span>
+<span id="cb107-456"><a href="#cb107-456" aria-label="430"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-457"><a href="#cb107-457" aria-label="431"></a>  <span class="fu">filter</span>(<span class="fu">lengths</span>(all_matches) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb107-458"><a href="#cb107-458" aria-label="432"></a>  <span class="fu">select</span>(year, all_matches)</span>
+<span id="cb107-459"><a href="#cb107-459" aria-label="433"></a><span class="in">```</span></span>
+<span id="cb107-460"><a href="#cb107-460" aria-label="434"></a></span>
+<span id="cb107-463"><a href="#cb107-463" aria-label="435"></a><span class="in">```{r}</span></span>
+<span id="cb107-464"><a href="#cb107-464" aria-label="436"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-465"><a href="#cb107-465" aria-label="437"></a>  <span class="fu">mutate</span>(<span class="at">edited =</span> <span class="fu">str_replace</span>(question_only,</span>
+<span id="cb107-466"><a href="#cb107-466" aria-label="438"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>),<span class="st">"RELATIONSHIP"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb107-467"><a href="#cb107-467" aria-label="439"></a>  <span class="fu">select</span>(question_only, edited)</span>
+<span id="cb107-468"><a href="#cb107-468" aria-label="440"></a><span class="in">```</span></span>
+<span id="cb107-469"><a href="#cb107-469" aria-label="441"></a></span>
+<span id="cb107-472"><a href="#cb107-472" aria-label="442"></a><span class="in">```{r}</span></span>
+<span id="cb107-473"><a href="#cb107-473" aria-label="443"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-474"><a href="#cb107-474" aria-label="444"></a>  <span class="fu">mutate</span>(<span class="at">removed =</span> <span class="fu">str_remove</span>(question_only,</span>
+<span id="cb107-475"><a href="#cb107-475" aria-label="445"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-476"><a href="#cb107-476" aria-label="446"></a>  <span class="fu">select</span>(question_only, removed)</span>
+<span id="cb107-477"><a href="#cb107-477" aria-label="447"></a><span class="in">```</span></span>
+<span id="cb107-478"><a href="#cb107-478" aria-label="448"></a></span>
+<span id="cb107-481"><a href="#cb107-481" aria-label="449"></a><span class="in">```{r}</span></span>
+<span id="cb107-482"><a href="#cb107-482" aria-label="450"></a>posts <span class="sc">|&gt;</span></span>
+<span id="cb107-483"><a href="#cb107-483" aria-label="451"></a>  <span class="fu">mutate</span>(<span class="at">removed =</span> <span class="fu">str_remove_all</span>(question_only,</span>
+<span id="cb107-484"><a href="#cb107-484" aria-label="452"></a>      <span class="fu">regex</span>(<span class="st">"marriage|married|divorce|divorced"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb107-485"><a href="#cb107-485" aria-label="453"></a>  <span class="fu">select</span>(question_only, removed)</span>
+<span id="cb107-486"><a href="#cb107-486" aria-label="454"></a><span class="in">```</span></span>
+<span id="cb107-487"><a href="#cb107-487" aria-label="455"></a></span>
+<span id="cb107-488"><a href="#cb107-488" aria-label="456"></a></span>
+<span id="cb107-489"><a href="#cb107-489" aria-label="457"></a></span>
+<span id="cb107-490"><a href="#cb107-490" aria-label="458"></a><span class="fu">## Done!</span></span>
+<span id="cb107-491"><a href="#cb107-491" aria-label="459"></a></span>
+<span id="cb107-492"><a href="#cb107-492" aria-label="460"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
