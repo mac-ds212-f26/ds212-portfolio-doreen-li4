@@ -15,4 +15,12 @@ Sep.13- Adv Data Viz
 Sep.15- Adv Spatial Viz
 
 ![](Mindmap-pcl-3.png)
+
+Sep.22 - Adv wrangle I
+
+![](Mindmap-pcl-4.png)
+
+Sep.28 - Adv wrangle II
+
+![](Notes-pcl-5.png)
 ## Quarto
