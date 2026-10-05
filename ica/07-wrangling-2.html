@@ -298,7 +298,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/02-file-system-cleaning.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -397,11 +397,6 @@ cookieconsent.run({
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA 3 Adv Data Viz</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/02-file-system-cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cleaning SFO Weather Data</span></a>
   </div>
@@ -504,7 +499,7 @@ cookieconsent.run({
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav><div class="quarto-title">
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/02-file-system-cleaning.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/07-wrangling-2.html"><span class="chapter-title">7 Adv Data wrangling II</span></a></li></ol></nav><div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">7 Adv Data wrangling II</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
@@ -663,8 +658,8 @@ cookieconsent.run({
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-label="1"></a><span class="fu">str_view</span>(string1, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-5f8b163c5e51cb06a4ba" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-5f8b163c5e51cb06a4ba">{"x":{"html":"<ul>\n  <li><pre>Record temp:<span class='special'>\t<\/span>102<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-73da6a6a2c69b19782e2" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-73da6a6a2c69b19782e2">{"x":{"html":"<ul>\n  <li><pre>Record temp:<span class='special'>\t<\/span>102<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section><section id="combine" class="level3"><h3 class="anchored" data-anchor-id="combine">Combine</h3>
@@ -837,32 +832,32 @@ cookieconsent.run({
 <span id="cb62-2"><a href="#cb62-2" aria-label="2"></a><span class="fu">data</span>(fruit)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-label="3"></a><span class="fu">sample</span>(fruit, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code> [1] "passionfruit" "honeydew"     "tangerine"    "apricot"      "avocado"     
- [6] "peach"        "lychee"       "date"         "jujube"       "salal berry" </code></pre>
+<pre><code> [1] "physalis"     "canary melon" "feijoa"       "mango"        "plum"        
+ [6] "jujube"       "blood orange" "boysenberry"  "tangerine"    "breadfruit"  </code></pre>
 </div>
 </div>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-label="1"></a><span class="fu">data</span>(words)</span>
 <span id="cb64-2"><a href="#cb64-2" aria-label="2"></a><span class="fu">sample</span>(words, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code> [1] "heart"   "forget"  "treat"   "radio"   "hour"    "public"  "tuesday"
- [8] "land"    "not"     "nature" </code></pre>
+<pre><code> [1] "honest"    "which"     "sell"      "except"    "place"     "transport"
+ [7] "when"      "shop"      "debate"    "fair"     </code></pre>
 </div>
 </div>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-label="1"></a><span class="fu">data</span>(sentences)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-label="2"></a><span class="fu">sample</span>(sentences, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code> [1] "The hog crawled under the high fence."         
- [2] "To have is better than to wait and hope."      
- [3] "The train brought our hero to the big town."   
- [4] "His wide grin earned many friends."            
- [5] "The hitch between the horse and cart broke."   
- [6] "The node on the stalk of wheat grew daily."    
- [7] "Light maple makes for a swell room."           
- [8] "A fence cuts through the corner lot."          
- [9] "Ship maps are different from those for planes."
-[10] "Flax makes a fine brand of paper."             </code></pre>
+<pre><code> [1] "Our plans right now are hazy."             
+ [2] "The case was puzzling to the old and wise."
+ [3] "Press the pedal with your left foot."      
+ [4] "Paper will dry out when wet."              
+ [5] "Heave the line over the port side."        
+ [6] "Pile the coal high in the shed corner."    
+ [7] "The ancient coin was quite dull and worn." 
+ [8] "Ripe pears are fit for a queen's table."   
+ [9] "A child's wit saved the day for us."       
+[10] "They could laugh although they were sad."  </code></pre>
 </div>
 </div>
 <p>We can use <code>str_view()</code> with the <code>pattern</code> argument to see what parts of a string match the regex supplied in the <code>pattern</code> argument. (Matches are enclosed in <code>&lt;&gt;</code>.)</p>
