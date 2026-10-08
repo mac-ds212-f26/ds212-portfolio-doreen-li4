@@ -75,21 +75,22 @@ cave_content <- dead_sea_scrolls |>
 
 ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_category)) +
   geom_col() +
-  geom_text(aes(label = ifelse(proportion >= 0.10, paste0(round(percent), "%"), NA)),
-            position = position_stack(vjust = 0.15), size = 3.5, color = "white") +
+  # remove the data labels since the goal is not to show the exact proportions:
+  #geom_text(aes(label = ifelse(proportion >= 0.10, paste0(round(percent), "%"), NA)),
+            #position = position_stack(vjust = 0.15), size = 3.5, color = "white") + 
   scale_y_continuous(labels = scales::percent, expand = expansion(mult = c(0, 0.02))) +
   scale_fill_viridis_d(option = "cividis") +
   labs(title = "Proportion of Manuscript Content Categories Across 10 Caves",
        subtitle = paste0("Unidentified and Other Non-biblical are each the largest category in 4 of the 10 caves,\n", "and Biblical is largest in 2 caves"),
     x = "Cave Number",
-    y = "Proportion",
+    y = NULL,
     fill = "Content category",
     caption = paste0("By: Doreen Li, Created on: 9/23/2026\n",
       "Source: TidyTuesday Dead Sea Scrolls Manuscripts; ",
       "Removed NA cave category.")) +
   theme_minimal(base_size = 13) +
-  theme(plot.title = element_text(face = "bold", size = 18),
-        plot.subtitle = element_text(size = 12),
+  theme(plot.title = element_text(face = "bold", size = 15),
+        plot.subtitle = element_text(size = 11),
         axis.title = element_text(face = "bold"),
         legend.title = element_text(face = "bold"),
         legend.position = "right",
