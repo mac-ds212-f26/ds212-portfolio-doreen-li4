@@ -73,7 +73,7 @@ cave_content <- dead_sea_scrolls |>
   ungroup()
  
 
-ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_category)) +
+ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_category))+
   geom_col() +
   # remove the data labels since the goal is not to show the exact proportions:
   #geom_text(aes(label = ifelse(proportion >= 0.10, paste0(round(percent), "%"), NA)),
@@ -87,8 +87,8 @@ ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_categor
     fill = "Content category",
     caption = paste0("By: Doreen Li, Created on: 9/23/2026\n",
       "Source: TidyTuesday Dead Sea Scrolls Manuscripts; ",
-      "Removed NA cave category.")) +
-  theme_minimal(base_size = 13) +
+      "Removed non-Qumran sites.")) +
+  theme_classic() +
   theme(plot.title = element_text(face = "bold", size = 15),
         plot.subtitle = element_text(size = 11),
         axis.title = element_text(face = "bold"),
