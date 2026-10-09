@@ -4,7 +4,7 @@ title: "Pre-Class Learning Summaries"
 
 ## R
 
-#Sep. 10- File System
+**Sep. 10- File System**
 
 ![](Mindmap-pcl-1.png)
 
@@ -14,30 +14,32 @@ title: "Pre-Class Learning Summaries"
 ![](Mindmap-pcl-2.png)
 
 
-#Sep.15- Adv Spatial Viz
+**Sep.15- Adv Spatial Viz**
 
 ![](Mindmap-pcl-3.png)
 
 
-#Sep.22 - Adv wrangle I
+**Sep.22 - Adv wrangle I**
 
 ![](Mindmap-pcl-4.png)
 
 
-#Sep.27 - Adv wrangle II
+**Sep.27 - Adv wrangle II**
 
 ![](Notes-pcl-5.png)
 
 
-#Oct.1 - Missing Data
+**Oct.1 - Missing Data**
 
 ![](Notes-pcl-6.png)
 
 
-#Oct.3 - Functions
+**Oct.3 - Functions**
 
 ![](Notes-pcl-7.png)
 
 
+**Oct.8 - R Base**
 
-## Quarto
+![](Notes-pcl-8.png)
+
