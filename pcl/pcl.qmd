@@ -9,7 +9,7 @@ title: "Pre-Class Learning Summaries"
 ![](Mindmap-pcl-1.png)
 
 
-#Sep.13- Adv Data Viz
+**Sep.13- Adv Data Viz**
 
 ![](Mindmap-pcl-2.png)
 
@@ -43,3 +43,7 @@ title: "Pre-Class Learning Summaries"
 
 ![](Notes-pcl-8.png)
 
+
+**Oct.11 - Iteration**
+
+![](Notes-pcl-9.png)
