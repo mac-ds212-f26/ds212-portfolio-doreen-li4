@@ -82,6 +82,7 @@ book:
       - ica/06-wrangling-1-notes.qmd
       - ica/07-wrangling-2.qmd
       - ica/08-missing-data.qmd
+      - ica/11-iteration-1.qmd
 
     - part: "Extras"
       chapters:
