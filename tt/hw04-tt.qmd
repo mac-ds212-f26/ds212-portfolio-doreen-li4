@@ -1,0 +1,106 @@
+---
+title: "Homework 04"
+---
+
+
+## TidyTuesday Part (Optional)
+
+::: {.callout-important title="Instructions"}
+You can count work on this week's TidyTuesday toward the exceptional work.
+:::
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story mainly composed of [effective visualizations](https://docs.google.com/presentation/d/1Q-C0sFxYGQvkxb6PU6OM_YOv6Nilalpk-IWb362PoRc/preview?slide=id.g13360dab5d5_0_61#slide=id.g13360dab5d5_0_61).  Provide sufficient background for readers to grasp your narrative.  Refer to the Homework Instructions ⭐ page on the course website for details on how to submit this part.
+
+## Import Data
+```{r}
+library(tidyverse)
+tuesdata <- tidytuesdayR::tt_load(2026, week = 40)
+
+avocado_oil_bottles <- tuesdata$avocado_oil_bottles
+avocado_oil_processed_foods <- tuesdata$avocado_oil_processed_foods
+```
+
+## Research Question
+Are more expensive bottled avocado oils more likely to have better purity results?
+
+## Data Wrangling
+```{r}
+avocado_clean <- avocado_oil_bottles %>%
+# only keeps related data
+  select(
+    sample_code,
+    grade_labeled,
+    product_origin,
+    cost_per_fl_oz,
+    oxidized,
+    purity_result,
+    adulterant
+  ) |>
+  filter(
+    !is.na(cost_per_fl_oz),
+    !is.na(purity_result)
+  ) |>
+  mutate(
+    purity_result = str_to_title(purity_result),
+    oxidation_status = if_else(
+      oxidized,
+      "Oxidized",
+      "Not oxidized"
+    ),
+    price_group = case_when(
+      cost_per_fl_oz < 1.5 ~ "Low price",
+      cost_per_fl_oz < 2.5 ~ "Medium price",
+      TRUE ~ "High price"
+    ),
+    price_group = factor(
+      price_group,
+      levels = c("Low price", "Medium price", "High price")
+    )
+  )
+```
+
+## Plot 1
+Does Price Differ by Purity?
+```{r}
+ggplot(avocado_clean,
+       aes(x = purity_result, y = cost_per_fl_oz, fill = purity_result)) +
+  geom_boxplot(alpha = 0.6) +
+  geom_jitter() +
+  scale_y_continuous(
+    labels = scales::label_dollar(),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  scale_fill_viridis_d(option = "cividis") +
+  labs(
+    title = "Are More Expensive Avocado Oils More Likely to Be Pure?",
+    subtitle = paste0(
+    "Pure oils have the widest price range, suggests that higher prices alone\n",
+    "isn't a reliable predictor of purity."),
+    x = NULL,
+    y = NULL,
+    fill = "Purity Result",
+    caption = paste0(
+      "By: Doreen Li, Created on: 10/13/2026, Source: TidyTuesday Avocado Oil\n",
+      "Purity results grouped as Adulterated, Pure, or Suspected based on laboratory testing.\n",
+    "Each point represents one bottled avocado oil sample; boxplots summarize prices within each group."
+    )
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(face = "bold"),
+    legend.title = element_text(face = "bold"),
+    legend.position = "right",
+    plot.caption = element_text(
+      size = 9,
+      hjust = 0,
+      color = "#7F7F7F"
+    )
+  )
+```
+
+## Conclusion
+
+Higher prices do not indicate better purity in bottled avocado oil. Although pure oils included the most expensive samples, they also spanned the widest price range and included some of the least expensive oils. Meanwhile, adulterated and suspected oils were concentrated at lower prices. Overall, price alone does not appear to be a reliable indicator of purity. Because the dataset contains only 22 samples, these findings should be interpreted as exploratory rather than representative of all bottled avocado oils.
+
