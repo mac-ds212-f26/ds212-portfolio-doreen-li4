@@ -63,26 +63,25 @@ avocado_clean <- avocado_oil_bottles %>%
 Does Price Differ by Purity?
 ```{r}
 ggplot(avocado_clean,
-       aes(x = purity_result, y = cost_per_fl_oz, fill = purity_result)) +
+       aes(x = purity_result, y = cost_per_fl_oz)) +
   geom_boxplot(alpha = 0.6) +
   geom_jitter() +
   scale_y_continuous(
     labels = scales::label_dollar(),
     expand = expansion(mult = c(0, 0.05))
   ) +
-  scale_fill_viridis_d(option = "cividis") +
   labs(
-    title = "Are More Expensive Avocado Oils More Likely to Be Pure?",
+    title = "How Does Price Differ Across Avocado Oil Purity Results?",
     subtitle = paste0(
-    "Pure oils have the widest price range, suggests that higher prices alone\n",
-    "isn't a reliable predictor of purity."),
+    "Pure oils tend to have higher prices, but 4 low-price outliersshow that pure oils\n",
+      "can still be found at very low prices"),
     x = NULL,
     y = NULL,
     fill = "Purity Result",
     caption = paste0(
       "By: Doreen Li, Created on: 10/13/2026, Source: TidyTuesday Avocado Oil\n",
       "Purity results grouped as Adulterated, Pure, or Suspected based on laboratory testing.\n",
-    "Each point represents one bottled avocado oil sample; boxplots summarize prices within each group."
+    "Each point represents one bottled avocado oil sample."
     )
   ) +
   theme_classic() +
@@ -90,8 +89,6 @@ ggplot(avocado_clean,
     plot.title = element_text(face = "bold", size = 15),
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(face = "bold"),
-    legend.title = element_text(face = "bold"),
-    legend.position = "right",
     plot.caption = element_text(
       size = 9,
       hjust = 0,
