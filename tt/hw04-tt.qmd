@@ -73,8 +73,8 @@ ggplot(avocado_clean,
   labs(
     title = "How Does Price Differ Across Avocado Oil Purity Results?",
     subtitle = paste0(
-    "Pure oils tend to have higher prices, but 4 low-price outliersshow that pure oils\n",
-      "can still be found at very low prices"),
+    "Pure oils tend to have higher prices, but 4 low-price outliers show that\n",
+      "pure oils can still be found at very low prices"),
     x = NULL,
     y = NULL,
     fill = "Purity Result",
@@ -86,7 +86,7 @@ ggplot(avocado_clean,
   ) +
   theme_classic() +
   theme(
-    plot.title = element_text(face = "bold", size = 15),
+    plot.title = element_text(face = "bold", size = 13),
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(face = "bold"),
     plot.caption = element_text(
