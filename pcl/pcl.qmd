@@ -47,3 +47,8 @@ title: "Pre-Class Learning Summaries"
 **Oct.11 - Iteration**
 
 ![](Notes-pcl-9.png)
+
+
+**Oct.22 - APIs**
+
+![](Notes-pcl-11.png)
