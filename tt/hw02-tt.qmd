@@ -1,0 +1,100 @@
+---
+title: "Homework 02"
+---
+
+
+## TidyTuesday Part (Optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work.
+
+:::
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story mainly composed of [effective visualizations](https://docs.google.com/presentation/d/1WHr6Itzm2IJLxvppcacxHpr8R4NxO4MfvWWUPmtQx6Q/preview?slide=id.g13360dab5d5_0_61).  Provide sufficient background for readers to grasp your narrative.  Refer to the Homework Instructions ⭐ page on the course website for details on how to submit this part.
+
+## Research Question
+
+How does the type of Dead Sea Scroll manuscript vary among 11 caves?
+
+## Import data
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+dead_sea_scrolls <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-15/dead_sea_scrolls.csv')
+```
+
+# Plot 1
+
+*What are the Dead Sea Scroll manuscripts distrubution look like?*
+
+```{r}
+cave_counts <- dead_sea_scrolls |>
+  filter(!is.na(cave)) |>
+  count(cave, sort = TRUE)
+
+ggplot(cave_counts, aes(x = reorder(cave, n), y = n)) +
+  geom_col(fill = "#E69F00") +
+  geom_text(aes(label = n), hjust = -0.15, size = 3.5) +
+  coord_flip() +
+  labs(title = "Manuscripts vs Caves",
+       subtitle = "The number of recorded manuscripts varies substantially across 11 caves",
+       x = "Cave",
+       y = "Number of manuscripts",
+       caption = paste0("By: Doreen Li, Created on: 9/23/2026\n",
+      "Source: TidyTuesday Dead Sea Scrolls Manuscripts; ",
+      "Removed NA cave category.")) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        axis.title = element_text(face = "bold"),
+        plot.caption = element_text(size = 9, hjust = 0, color = "#7F7F7F"))
+```
+
+
+# Plot 2
+
+*Does the type of manuscript vary among 11 caves?*
+
+The manuscripts are unevenly distributed across caves, as the cave 4 has the most manuscripts than all the others. And different caves also have different compositions of manuscript types. Thus, the number of manuscripts and their content of Dead Sea Scroll collection varies among those 11 discovery sites.
+
+```{r}
+cave_content <- dead_sea_scrolls |>
+  filter(!is.na(cave)) |>  
+  #combine Biblical, Biblical (Deuterocanonical), and Biblical Translation into 1 category: Biblical
+  mutate(content_category = case_when(content_category %in% c("Biblical", "Biblical (Deuterocanonical)", "Biblical Translation") ~ "Biblical", 
+  #combine Documentary, Liturgical, Other Non-biblical, Parabiblical into 1 category: Other Non-biblical
+                                      content_category %in% c("Documentary", "Liturgical", "Other Non-biblical", "Parabiblical") ~ "Other Non-biblical", TRUE ~ content_category))|>
+  count(cave, content_category) |>
+  group_by(cave) |>
+  mutate(proportion = n/sum(n),
+         percent = proportion * 100)|>
+  ungroup()
+ 
+
+ggplot(cave_content,aes(x = factor(cave), y = proportion, fill = content_category))+
+  geom_col() +
+  # remove the data labels since the goal is not to show the exact proportions:
+  #geom_text(aes(label = ifelse(proportion >= 0.10, paste0(round(percent), "%"), NA)),
+            #position = position_stack(vjust = 0.15), size = 3.5, color = "white") + 
+  scale_y_continuous(labels = scales::percent, expand = expansion(mult = c(0, 0.02))) +
+  scale_fill_viridis_d(option = "cividis") +
+  labs(title = "Proportion of Manuscript Content Categories Across 10 Caves",
+       subtitle = paste0("Unidentified and Other Non-biblical are each the largest category in 4 of the 10 caves,\n", "and Biblical is largest in 2 caves"),
+    x = "Cave Number",
+    y = NULL,
+    fill = "Content category",
+    caption = paste0("By: Doreen Li, Created on: 9/23/2026\n",
+      "Source: TidyTuesday Dead Sea Scrolls Manuscripts; ",
+      "Removed non-Qumran sites.")) +
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", size = 15),
+        plot.subtitle = element_text(size = 11),
+        axis.title = element_text(face = "bold"),
+        legend.title = element_text(face = "bold"),
+        legend.position = "right",
+        plot.caption = element_text(size = 9, hjust = 0, color = "#7F7F7F"))
+```
+
+
