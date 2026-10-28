@@ -61,11 +61,40 @@ avocado_clean <- avocado_oil_bottles %>%
 
 ## Plot 1
 Does Price Differ by Purity?
+
 ```{r}
-ggplot(avocado_clean,
-       aes(x = purity_result, y = cost_per_fl_oz)) +
-  geom_boxplot(alpha = 0.6) +
-  geom_jitter() +
+avocado_plot <- avocado_clean |>
+  mutate(row_id = row_number())
+
+highlight_ids <- avocado_plot |>
+  filter(purity_result == "Pure") |>
+  slice_min(
+    order_by = cost_per_fl_oz,
+    n = 4,
+    with_ties = FALSE
+  ) |>
+  pull(row_id)
+
+avocado_plot <- avocado_plot |>
+  mutate(
+    highlight = if_else(row_id %in% highlight_ids, "Low-price Pure", "Other")
+  )
+ggplot(
+  avocado_plot,
+  aes(x = purity_result, y = cost_per_fl_oz)
+) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(
+    aes(color = highlight),
+    width = 0.15,
+    height = 0
+  ) +
+  scale_color_manual(
+    values = c(
+      "Other" = "black",
+      "Low-price Pure" = "#56B4E9"
+    ), guide = "none"
+  ) +
   scale_y_continuous(
     labels = scales::label_dollar(),
     expand = expansion(mult = c(0, 0.05))
@@ -73,27 +102,23 @@ ggplot(avocado_clean,
   labs(
     title = "How Does Price Differ Across Avocado Oil Purity Results?",
     subtitle = paste0(
-    "Pure oils tend to have higher prices, but 4 low-price outliers show that\n",
-      "pure oils can still be found at very low prices"),
+      "Pure oils tend to have higher prices, but 4 low-price outliers show that\n",
+      "pure oils can still be found at very low prices"
+    ),
     x = NULL,
     y = NULL,
-    fill = "Purity Result",
     caption = paste0(
       "By: Doreen Li, Created on: 10/13/2026, Source: TidyTuesday Avocado Oil\n",
       "Purity results grouped as Adulterated, Pure, or Suspected based on laboratory testing.\n",
-    "Each point represents one bottled avocado oil sample."
+      "Each point represents one bottled avocado oil sample."
     )
   ) +
   theme_classic() +
   theme(
-    plot.title = element_text(face = "bold", size = 13),
+    plot.title = element_text(face = "bold",size = 13),
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(face = "bold"),
-    plot.caption = element_text(
-      size = 9,
-      hjust = 0,
-      color = "#7F7F7F"
-    )
+    plot.caption = element_text(size = 9, hjust = 0, color = "#7F7F7F")
   )
 ```
 
