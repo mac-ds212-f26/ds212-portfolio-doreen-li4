@@ -49,6 +49,25 @@ title: "Pre-Class Learning Summaries"
 ![](Notes-pcl-9.png)
 
 
-**Oct.22 - APIs**
+**Oct.22 - APIs I**
 
 ![](Notes-pcl-11.png)
+
+
+**Oct.25 - APIs II**
+
+![](Notes-pcl-12.png)
+
+
+**Oct.29 - Web Scraping**
+
+![](Notes-pcl-13.png)
+
+
+**Oct.31 - Databases & SOL**
+
+![](Notes-pcl-14.png)
+
+
+
+
