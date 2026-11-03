@@ -2,4 +2,67 @@
 title: "Personal Visualization Journey"
 ---
 
-Add content here
+```{r}
+library(tidyverse)
+
+screen_time <- read_csv("screen_time.csv")
+```
+```{r}
+screen_time_clean <- screen_time |>
+  mutate(
+    day_type = if_else(
+      day %in% c("Saturday", "Sunday"),
+      "Weekend",
+      "Weekday"
+    )
+  )
+
+screen_time_clean |>
+  group_by(day_type) |>
+  summarise(
+    avg_screen_time = mean(total_screen_mins),
+    avg_pickups = mean(pickups),
+    avg_notifications = mean(notifications)
+  )
+```
+
+```{r}
+ggplot(
+  screen_time,
+  aes(
+    x = notifications,
+    y = pickups,
+    size = total_screen_mins
+  )
+) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "How Are Notifications Related to My Phone Pickups?",
+    subtitle = paste0(
+      "Days with more notifications tend to have more pickups, while longer\n",
+      "screen time does not follow the same pattern."
+    ),
+    x = "Notifications",
+    y = "Pickups",
+    size = "Screen Time (min)",
+    caption = paste0(
+      "By: Doreen Li, Created on: 11/02/2026, Source: Personal iPhone Screen Time Data\n",
+      "Screen time, pickups, and notifications were recorded daily over a 14-day period.\n",
+      "Each point represents one day; point size represents total daily screen time."
+    )
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(face = "bold", size = 13),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(face = "bold"),
+    plot.caption = element_text(
+      size = 9,
+      hjust = 0,
+      color = "#7F7F7F"
+    )
+  )
+```
+
+
+
