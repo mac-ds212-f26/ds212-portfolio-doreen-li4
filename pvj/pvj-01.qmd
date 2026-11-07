@@ -27,28 +27,23 @@ screen_time_clean |>
 ```
 
 ```{r}
-ggplot(
-  screen_time,
-  aes(
-    x = notifications,
-    y = pickups,
-    size = total_screen_mins
-  )
+ggplot(screen_time, aes(x = notifications, y = pickups, color = total_screen_mins)
 ) +
-  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "#6A3D9A",
+    linewidth = 0.8) +
+  geom_point(size = 4) +
+  scale_color_gradient(low = "#D8C8F0", high = "#5B2A86") +
   labs(
     title = "How Are Notifications Related to My Phone Pickups?",
     subtitle = paste0(
-      "Days with more notifications tend to have more pickups, while longer\n",
-      "screen time does not follow the same pattern."
-    ),
+      "Days with more notifications tend to have more pickups, but days\n",
+      "with fewer pickups can still have longer screen time."),
     x = "Notifications",
     y = "Pickups",
-    size = "Screen Time (min)",
+    color = "Screen Time (min)",
     caption = paste0(
-      "By: Doreen Li, Created on: 11/02/2026, Source: Personal iPhone Screen Time Data\n",
-      "Screen time, pickups, and notifications were recorded daily over a 14-day period.\n",
-      "Each point represents one day; point size represents total daily screen time."
+      "By: Doreen Li, Created on: 11/07/2026, Source: Personal iPhone Screen Time Data\n",
+      "Screen time, pickups, and notifications were recorded daily from Oct 11 to Oct 24."
     )
   ) +
   theme_classic() +
