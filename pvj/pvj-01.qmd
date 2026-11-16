@@ -1,12 +1,17 @@
 ---
 title: "Personal Visualization Journey"
 ---
+## My Screen time from Oct 11 to 24
 
+# load my data
 ```{r}
 library(tidyverse)
 
 screen_time <- read_csv("screen_time.csv")
 ```
+
+
+# data wrangling
 ```{r}
 screen_time_clean <- screen_time |>
   mutate(
@@ -26,10 +31,11 @@ screen_time_clean |>
   )
 ```
 
+# viz
 ```{r}
 ggplot(screen_time, aes(x = notifications, y = pickups, color = total_screen_mins)
 ) +
-  geom_smooth(method = "lm", se = FALSE, color = "#6A3D9A",
+  geom_smooth(method = "lm", se = FALSE, color = "#E69F00",
     linewidth = 0.8) +
   geom_point(size = 4) +
   scale_color_gradient(low = "#D8C8F0", high = "#5B2A86") +
