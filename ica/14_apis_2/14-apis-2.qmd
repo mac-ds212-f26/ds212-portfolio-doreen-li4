@@ -314,13 +314,15 @@ resp |> xml_find_all("item/name") |> xml_attr("type")
 Get the board game name (e.g., "Murder Mystery..." and  "Robinson Crusoe")
 
 ```{r}
-req <- request("https://boardgamegeek.com/xmlapi2") |>
-    req_url_path_append("search") |>
-    req_url_query(query = I("mystery+curse"), type = I("boardgame,boardgameaccessory,boardgameexpansion"))
+#keep getting errors of Error in `req_perform()`: ! HTTP 401 Unauthorized.
+library(httr2)
+# req <- request("https://boardgamegeek.com/xmlapi2") |>
+    # req_url_path_append("search") |>
+    # req_url_query(query = I("mystery+curse"), type = I("boardgame,boardgameaccessory,boardgameexpansion"))
 
-resp <- req_perform(req)  |> resp_body_xml()
+# resp <- req_perform(req)  |> resp_body_xml()
 
-resp |> xml_find_all("item/name") |> xml_attr("value")
+# resp |> xml_find_all("item/name") |> xml_attr("value")
 ```
 
 
@@ -329,7 +331,7 @@ resp |> xml_find_all("item/name") |> xml_attr("value")
 Get the board game ID number (e.g., 63495, 40175)
 
 ```{r}
-resp |> xml_find_all("item") |> xml_attr("id")
+#resp |> xml_find_all("item") |> xml_attr("id")
 ```
 
 
@@ -447,7 +449,7 @@ Using base R subsetting, we can access elements of a list in three ways:
 #| eval: false
 
 # This gets the first element of the list
-resp_pt[[1]]
+# resp_pt[[1]]
 ```
 
 - By *name* with double square brackets `[[`: (note that list elements are not always named, so this won't always be possible)
@@ -456,11 +458,11 @@ resp_pt[[1]]
 #| eval: false
 
 # Accessing by name directly
-resp_pt[["status"]]
+# resp_pt[["status"]]
 
 # Accessing via a variable
-which_element <- "status"
-resp_pt[[which_element]]
+# which_element <- "status"
+# resp_pt[[which_element]]
 ```
 
 - By *name* with a dollar sign `$`: (Helpful tip: For this mode of access, RStudio allows tab completion to fill in the full name)
@@ -468,7 +470,7 @@ resp_pt[[which_element]]
 ```{r list_access3}
 #| eval: false
 
-resp_pt$status
+# resp_pt$status
 ```
 
 We can retrieve these *nested* attributes by sequentially accessing the object keys from the outside in. For example, the `meta` element would be accessed as follows:
@@ -476,7 +478,7 @@ We can retrieve these *nested* attributes by sequentially accessing the object k
 ```{r list_access4}
 #| eval: false
 
-resp_pt$response$meta
+# resp_pt$response$meta
 ```
 
 
@@ -489,16 +491,16 @@ In the `resp_pt` object, retrieve the data associated with:
 - the abstracts and leading paragraphs of the articles found in the search
 
 ```{r}
-resp_pt$copyright
-resp_pt$response$meta$hits
+# resp_pt$copyright
+# resp_pt$response$meta$hits
 
-resp_pt$response$docs$abstract
-resp_pt$response$docs$lead_paragraph
+# resp_pt$response$docs$abstract
+# resp_pt$response$docs$lead_paragraph
 
 # Both (abstract and leading paragraph) at once
-resp_pt$response$docs[c("abstract", "lead_paragraph")]
-resp_pt$response$docs |>
-    select(abstract, lead_paragraph)
+# resp_pt$response$docs[c("abstract", "lead_paragraph")]
+# resp_pt$response$docs |>
+    # select(abstract, lead_paragraph)
 ```
 
 

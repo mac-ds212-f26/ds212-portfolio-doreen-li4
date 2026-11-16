@@ -138,7 +138,7 @@ Now that we have identified CSS selectors for the information we need, let's fet
 ```{r read_html}
 #| eval: false
 
-nih <- read_html("https://www.nih.gov/news-events/news-releases")
+# nih <- read_html("https://www.nih.gov/news-events/news-releases")
 ```
 
 Once the webpage is loaded, we can retrieve data using the CSS selectors we specified earlier. The following code retrieves the article titles:
@@ -147,10 +147,10 @@ Once the webpage is loaded, we can retrieve data using the CSS selectors we spec
 #| eval: false
 
 # Retrieve and inspect article titles
-article_titles <- nih |>
-    html_elements(".thumbnail-teaser__heading") |>
-    html_text()
-head(article_titles)
+# article_titles <- nih |>
+    # html_elements(".thumbnail-teaser__heading") |>
+    # html_text()
+# head(article_titles)
 ```
 
 
@@ -169,7 +169,7 @@ Consult with your peers and compare plans.
 ::: {.callout-tip title="Stop to reflect"}
 Write a few observations about your comfort/confidence in this planning exercise. As you proceed through the implementation of this plan in the next steps, make notes about any places you struggled, were uncertain, or benefited from peer input.
 :::
-
+> I feel like learning sys.sleep was good, and it will be useful for future HWs  and project milestones possibly. But I am unsure of the use of regex to pull.
 
 ## ✏️ Scrape Pages
 
@@ -187,9 +187,10 @@ Notes:
 base_url <- "https://www.nih.gov/news-events/news-releases"
 urls_all_pages <- c(base_url, str_c(base_url, "?page=", 1:4))
 
-pages2 <- purrr::map(urls_all_pages, scrape_page)
-df_articles2 <- bind_rows(pages2)
-head(df_articles2)
+#Code is not working
+# pages2 <- purrr::map(urls_all_pages, scrape_page)
+# df_articles2 <- bind_rows(pages2)
+# head(df_articles2)
 ```
 
 
